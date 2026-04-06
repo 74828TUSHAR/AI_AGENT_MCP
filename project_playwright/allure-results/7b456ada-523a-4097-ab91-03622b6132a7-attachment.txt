@@ -1,0 +1,54 @@
+[35mDEBUG   [0m asyncio:proactor_events.py:633 Using proactor: IocpProactor
+[35mDEBUG   [0m asyncio:proactor_events.py:633 Using proactor: IocpProactor
+[32mINFO    [0m test_login_qa:test_login_qa.py:53 
+======================================================================
+[32mINFO    [0m test_login_qa:test_login_qa.py:54 TEST: test_login_with_valid_credentials
+[32mINFO    [0m test_login_qa:test_login_qa.py:55 Scenarios:
+[32mINFO    [0m test_login_qa:test_login_qa.py:57   1 - Navigate to base URL and load homepage
+[32mINFO    [0m test_login_qa:test_login_qa.py:57   2 - Click Signup/Login link and navigate to login page
+[32mINFO    [0m test_login_qa:test_login_qa.py:57   3 - Enter valid email and password credentials
+[32mINFO    [0m test_login_qa:test_login_qa.py:57   4 - Click login button and submit form
+[32mINFO    [0m test_login_qa:test_login_qa.py:57   5 - Verify 'Logged in as' message appears
+[32mINFO    [0m test_login_qa:test_login_qa.py:58 ======================================================================
+
+[32mINFO    [0m test_login_qa:test_login_qa.py:67 
+======================================================================
+[32mINFO    [0m test_login_qa:test_login_qa.py:68 Scenario 1: Navigate to base URL and load homepage
+[32mINFO    [0m test_login_qa:test_login_qa.py:69   URL: https://automationexercise.com/
+[32mINFO    [0m test_login_qa:test_login_qa.py:70 ======================================================================
+[32mINFO    [0m test_login_qa:test_login_qa.py:74 ✓ Homepage loaded successfully
+[32mINFO    [0m test_login_qa:test_login_qa.py:75   Page Title: Automation Exercise
+[32mINFO    [0m test_login_qa:test_login_qa.py:76   Current URL: https://automationexercise.com/
+[32mINFO    [0m test_login_qa:test_login_qa.py:91 
+======================================================================
+[32mINFO    [0m test_login_qa:test_login_qa.py:92 Scenario 2: Click Signup/Login link and navigate to login page
+[32mINFO    [0m test_login_qa:test_login_qa.py:94 ======================================================================
+[32mINFO    [0m test_login_qa:test_login_qa.py:97 ✓ Successfully clicked Signup/Login link
+[32mINFO    [0m test_login_qa:test_login_qa.py:98   Current URL: https://automationexercise.com/login
+[32mINFO    [0m test_login_qa:test_login_qa.py:110 
+======================================================================
+[32mINFO    [0m test_login_qa:test_login_qa.py:111 Scenario 3: Enter valid email and password credentials
+[32mINFO    [0m test_login_qa:test_login_qa.py:113   Email: adminnn@gmail.com
+[32mINFO    [0m test_login_qa:test_login_qa.py:114   Password: *********
+[32mINFO    [0m test_login_qa:test_login_qa.py:115 ======================================================================
+[32mINFO    [0m test_login_qa:test_login_qa.py:118 ✓ Credentials entered successfully
+[32mINFO    [0m test_login_qa:test_login_qa.py:119   Email field filled with: adminnn@gmail.com
+[32mINFO    [0m test_login_qa:test_login_qa.py:120   Password field filled
+[32mINFO    [0m test_login_qa:test_login_qa.py:133 
+======================================================================
+[32mINFO    [0m test_login_qa:test_login_qa.py:134 Scenario 4: Click login button and submit form
+[32mINFO    [0m test_login_qa:test_login_qa.py:135 ======================================================================
+[32mINFO    [0m test_login_qa:test_login_qa.py:137 ✓ Login button clicked and form submitted
+[32mINFO    [0m test_login_qa:test_login_qa.py:138   Page is loading...
+[32mINFO    [0m test_login_qa:test_login_qa.py:145 
+======================================================================
+[32mINFO    [0m test_login_qa:test_login_qa.py:146 Scenario 5: Verify 'Logged in as' message appears
+[32mINFO    [0m test_login_qa:test_login_qa.py:147 ======================================================================
+[32mINFO    [0m test_login_qa:test_login_qa.py:172 ✓ Login verification PASSED
+[32mINFO    [0m test_login_qa:test_login_qa.py:173   'Logged in as' message found on page
+[32mINFO    [0m test_login_qa:test_login_qa.py:174   Current URL: https://automationexercise.com/
+[32mINFO    [0m test_login_qa:test_login_qa.py:183 
+======================================================================
+[32mINFO    [0m test_login_qa:test_login_qa.py:184 ✓✓✓ TEST PASSED ✓✓✓
+[32mINFO    [0m test_login_qa:test_login_qa.py:185 All scenarios executed successfully
+[32mINFO    [0m test_login_qa:test_login_qa.py:186 ======================================================================

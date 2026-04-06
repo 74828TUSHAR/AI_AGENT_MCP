@@ -1,0 +1,14 @@
+[
+  {
+    "username": "adminnn@gmail.com",
+    "password": "admin@123",
+    "expect_logged_in": true
+  },
+  {
+    "username": "wrong@gmail.com",
+    "password": "wrongpass",
+    "expect_logged_in": false
+  }
+]
+
+

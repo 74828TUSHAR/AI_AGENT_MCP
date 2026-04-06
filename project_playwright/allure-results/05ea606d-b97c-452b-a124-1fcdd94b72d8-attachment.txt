@@ -1,0 +1,54 @@
+INFO     test_login_authentication:test_login_authentication.py:224 
+======================================================================
+INFO     test_login_authentication:test_login_authentication.py:225 TEST: test_login_with_invalid_password
+INFO     test_login_authentication:test_login_authentication.py:226 Scenarios:
+INFO     test_login_authentication:test_login_authentication.py:228   1 - Navigate to base URL and load homepage
+INFO     test_login_authentication:test_login_authentication.py:228   2 - Click Signup/Login link and navigate to login page
+INFO     test_login_authentication:test_login_authentication.py:228   3 - Enter invalid password credentials
+INFO     test_login_authentication:test_login_authentication.py:228   4 - Click login button and submit form
+INFO     test_login_authentication:test_login_authentication.py:228   5 - Verify error message appears
+INFO     test_login_authentication:test_login_authentication.py:229 ======================================================================
+
+INFO     test_login_authentication:test_login_authentication.py:238 
+======================================================================
+INFO     test_login_authentication:test_login_authentication.py:239 Scenario 1: Navigate to base URL and load homepage
+INFO     test_login_authentication:test_login_authentication.py:240   URL: https://automationexercise.com/
+INFO     test_login_authentication:test_login_authentication.py:241 ======================================================================
+INFO     test_login_authentication:test_login_authentication.py:245 ✓ Homepage loaded successfully
+INFO     test_login_authentication:test_login_authentication.py:246   Page Title: Automation Exercise
+INFO     test_login_authentication:test_login_authentication.py:247   Current URL: https://automationexercise.com/
+INFO     test_login_authentication:test_login_authentication.py:263 
+======================================================================
+INFO     test_login_authentication:test_login_authentication.py:264 Scenario 2: Click Signup/Login link and navigate to login page
+INFO     test_login_authentication:test_login_authentication.py:266 ======================================================================
+INFO     test_login_authentication:test_login_authentication.py:269 ✓ Successfully clicked Signup/Login link
+INFO     test_login_authentication:test_login_authentication.py:270   Current URL: https://automationexercise.com/login
+INFO     test_login_authentication:test_login_authentication.py:286 
+======================================================================
+INFO     test_login_authentication:test_login_authentication.py:287 Scenario 3: Enter invalid password credentials
+INFO     test_login_authentication:test_login_authentication.py:288   Email: *****************
+INFO     test_login_authentication:test_login_authentication.py:289   Password: ******************** (intentional)
+INFO     test_login_authentication:test_login_authentication.py:290 ======================================================================
+INFO     test_login_authentication:test_login_authentication.py:294 ✓ Credentials entered
+INFO     test_login_authentication:test_login_authentication.py:295   Email field filled with: *****************
+INFO     test_login_authentication:test_login_authentication.py:297   Password field filled with: ********************
+INFO     test_login_authentication:test_login_authentication.py:310 
+======================================================================
+INFO     test_login_authentication:test_login_authentication.py:311 Scenario 4: Click login button and submit form
+INFO     test_login_authentication:test_login_authentication.py:312 ======================================================================
+INFO     test_login_authentication:test_login_authentication.py:313 ✓ Login button clicked and form submitted
+INFO     test_login_authentication:test_login_authentication.py:314   Waiting for page response...
+INFO     test_login_authentication:test_login_authentication.py:321 
+======================================================================
+INFO     test_login_authentication:test_login_authentication.py:322 Scenario 5: Verify error message appears
+INFO     test_login_authentication:test_login_authentication.py:323 ======================================================================
+INFO     test_login_authentication:test_login_authentication.py:327 ✓ Error message captured
+INFO     test_login_authentication:test_login_authentication.py:328   Expected: 'Your email or password is incorrect!'
+INFO     test_login_authentication:test_login_authentication.py:329   Actual: 'Your email or password is incorrect!'
+INFO     test_login_authentication:test_login_authentication.py:330   Current URL: https://automationexercise.com/login
+INFO     test_login_authentication:test_login_authentication.py:336 ✓ Error message verified successfully (as expected for invalid password)
+INFO     test_login_authentication:test_login_authentication.py:356 
+======================================================================
+INFO     test_login_authentication:test_login_authentication.py:357 ✓✓✓ TEST PASSED ✓✓✓
+INFO     test_login_authentication:test_login_authentication.py:358 Invalid password correctly showed error message
+INFO     test_login_authentication:test_login_authentication.py:359 ======================================================================
