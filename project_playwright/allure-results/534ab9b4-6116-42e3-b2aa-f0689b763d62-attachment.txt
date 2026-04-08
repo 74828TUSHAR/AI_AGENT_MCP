@@ -1,0 +1,20 @@
+[32mINFO    [0m test_registration:test_registration.py:55 
+======================================================================
+[32mINFO    [0m test_registration:test_registration.py:56 Test: test_signup_with_valid_credentials
+[32mINFO    [0m test_registration:test_registration.py:57 Scenarios:
+[32mINFO    [0m test_registration:test_registration.py:59   1 - Navigate to base URL and load homepage
+[32mINFO    [0m test_registration:test_registration.py:59   2 - Click Signup/Login link and navigate to login page
+[32mINFO    [0m test_registration:test_registration.py:59   3 - Enter valid Name and Email credentials
+[32mINFO    [0m test_registration:test_registration.py:59   4 - Click Signup button and submit form
+[32mINFO    [0m test_registration:test_registration.py:59   5 - Verify 'Enter Account Informatino' text appears
+[32mINFO    [0m test_registration:test_registration.py:60 ======================================================================
+
+[32mINFO    [0m test_registration:test_registration.py:66 
+======================================================================
+[32mINFO    [0m test_registration:test_registration.py:67 Scenario 1: Navigate to base URL and load homepage
+[32mINFO    [0m test_registration:test_registration.py:68   URL: https://automationexercise.com/
+[32mINFO    [0m test_registration:test_registration.py:69 ======================================================================
+[31m[1mERROR   [0m test_registration:test_registration.py:79 ✗ FAILED at Scenario 1 (Line 71)
+[31m[1mERROR   [0m test_registration:test_registration.py:80   Error: name 'login_page' is not defined
+[31m[1mERROR   [0m test_registration:test_registration.py:81   Current URL: about:blank
+[31m[1mERROR   [0m test_registration:test_registration.py:82   Page Title:

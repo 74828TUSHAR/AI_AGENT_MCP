@@ -1,0 +1,29 @@
+[32mINFO    [0m test_registration:test_registration.py:55 
+======================================================================
+[32mINFO    [0m test_registration:test_registration.py:56 Test: test_signup_with_valid_credentials
+[32mINFO    [0m test_registration:test_registration.py:57 Scenarios:
+[32mINFO    [0m test_registration:test_registration.py:59   1 - Navigate to base URL and load homepage
+[32mINFO    [0m test_registration:test_registration.py:59   2 - Click Signup/Login link and navigate to login page
+[32mINFO    [0m test_registration:test_registration.py:59   3 - Enter valid Name and Email credentials
+[32mINFO    [0m test_registration:test_registration.py:59   4 - Click Signup button and submit form
+[32mINFO    [0m test_registration:test_registration.py:59   5 - Verify 'Enter Account Informatino' text appears
+[32mINFO    [0m test_registration:test_registration.py:60 ======================================================================
+
+[32mINFO    [0m test_registration:test_registration.py:66 
+======================================================================
+[32mINFO    [0m test_registration:test_registration.py:67 Scenario 1: Navigate to base URL and load homepage
+[32mINFO    [0m test_registration:test_registration.py:68   URL: https://automationexercise.com/
+[32mINFO    [0m test_registration:test_registration.py:69 ======================================================================
+[32mINFO    [0m test_registration:test_registration.py:73 ✓ Homepage loaded successfully
+[32mINFO    [0m test_registration:test_registration.py:74   Page Title: Automation Exercise
+[32mINFO    [0m test_registration:test_registration.py:75   Current URL: https://automationexercise.com/
+[32mINFO    [0m test_registration:test_registration.py:91 
+======================================================================
+[32mINFO    [0m test_registration:test_registration.py:92 Scenario 2: Click Signup/Login link and navigate to Signup page
+[32mINFO    [0m test_registration:test_registration.py:94 ======================================================================
+[1m[31mERROR   [0m test_registration:test_registration.py:102 ✗ FAILED at Scenario 2 (Line 559)
+[1m[31mERROR   [0m test_registration:test_registration.py:103   Error: Locator.wait_for: Target page, context or browser has been closed
+Call log:
+  - waiting for get_by_role("button", name="Signup") to be visible
+
+[1m[31mERROR   [0m test_registration:test_registration.py:104   Current URL: https://automationexercise.com/

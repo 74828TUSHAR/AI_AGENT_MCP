@@ -10,7 +10,7 @@ class RegistrationPage:
         await self.page.goto(url)
 
     async def navigate_to_signup_login(self):
-        element = self.page.get_by_role(self.locators.SIGNUP_BUTTON_ROLE,name = self.locators.SIGNUP_BUTTON_NAME)
+        element = self.page.get_by_role(self.locators.SIGNUP_LOGIN_ROLE,name = self.locators.SIGNUP_LOGIN_NAME)
         await element.wait_for(state = 'visible')
         await element.click()
 
@@ -63,7 +63,4 @@ class RegistrationPage:
         await self.page.locator(self.locators.ACCOUNT_DELETED_MESSAGE).is_visible()
         await self.page.get_by_role(self.locators.DELETE_ACCOUNT_CONTINUE_BUTTON_ROLE , name = self.locators.DELETE_ACCOUNT_CONTINUE_BUTTON_NAME).click()
         
-
-
-
 
