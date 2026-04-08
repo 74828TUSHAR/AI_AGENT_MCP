@@ -4,13 +4,16 @@ class LoginLocators:
     signup_login_name               =           "Signup / Login"
 
     # Login form inputs
-    login_email_testid              =           '[data-qa="login-email"]'
-    login_password_placeholder      =           "Password"
+    login_email_testid              =           'login-email'
+    login_password_testid           =           'login-password'
 
     # Login button
     login_button_role               =           "button"
     login_button_name               =           "Login"
 
     # Success/Error messages
+    login_form_heading              =           "Login to your account"
     logged_in_text                  =           "Logged in as"
     error_message_text              =           "Your email or password is incorrect!"
+    logout_button_role              =           "link"
+    logout_button_name              =           "Logout"

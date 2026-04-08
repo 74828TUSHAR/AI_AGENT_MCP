@@ -1,0 +1,14 @@
+2026-04-08 21:11:47 [    INFO] test_case_15_place_order_register_before_checkout - log_test_header:9 - 
+======================================================================
+2026-04-08 21:11:47 [    INFO] test_case_15_place_order_register_before_checkout - log_test_header:10 - TEST: test_case_15_place_order_register_before_checkout
+2026-04-08 21:11:47 [    INFO] test_case_15_place_order_register_before_checkout - log_test_header:11 - Scenarios:
+2026-04-08 21:11:47 [    INFO] test_case_15_place_order_register_before_checkout - log_test_header:13 -   1 - Register user before checkout
+2026-04-08 21:11:47 [    INFO] test_case_15_place_order_register_before_checkout - log_test_header:13 -   2 - Add product to cart and proceed to checkout
+2026-04-08 21:11:47 [    INFO] test_case_15_place_order_register_before_checkout - log_test_header:13 -   3 - Place order and verify confirmation
+2026-04-08 21:11:47 [    INFO] test_case_15_place_order_register_before_checkout - log_test_header:13 -   4 - Delete account after order completion
+2026-04-08 21:11:47 [    INFO] test_case_15_place_order_register_before_checkout - log_test_header:14 - ======================================================================
+
+2026-04-08 21:11:53 [    INFO] test_case_15_place_order_register_before_checkout - test_case_15_place_order_register_before_checkout:42 - Scenario 1 passed
+2026-04-08 21:12:10 [    INFO] test_case_15_place_order_register_before_checkout - test_case_15_place_order_register_before_checkout:56 - Scenario 2 passed
+2026-04-08 21:12:13 [    INFO] test_case_15_place_order_register_before_checkout - test_case_15_place_order_register_before_checkout:76 - Scenario 3 passed
+2026-04-08 21:12:14 [    INFO] test_case_15_place_order_register_before_checkout - test_case_15_place_order_register_before_checkout:91 - Scenario 4 passed

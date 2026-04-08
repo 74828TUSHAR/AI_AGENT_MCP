@@ -1,0 +1,31 @@
+2026-04-08 20:46:01 [    INFO] test_registration - test_signup_with_valid_credentials:36 - 
+======================================================================
+2026-04-08 20:46:01 [    INFO] test_registration - test_signup_with_valid_credentials:37 - TEST: test_signup_with_valid_credentials
+2026-04-08 20:46:01 [    INFO] test_registration - test_signup_with_valid_credentials:38 - Scenarios:
+2026-04-08 20:46:01 [    INFO] test_registration - test_signup_with_valid_credentials:40 -   1 - Navigate to base URL and load homepage
+2026-04-08 20:46:01 [    INFO] test_registration - test_signup_with_valid_credentials:40 -   2 - Click Signup/Login link and navigate to signup page
+2026-04-08 20:46:01 [    INFO] test_registration - test_signup_with_valid_credentials:40 -   3 - Enter valid name and email credentials
+2026-04-08 20:46:01 [    INFO] test_registration - test_signup_with_valid_credentials:40 -   4 - Verify account information page is visible
+2026-04-08 20:46:01 [    INFO] test_registration - test_signup_with_valid_credentials:40 -   5 - Enter account and address information
+2026-04-08 20:46:01 [    INFO] test_registration - test_signup_with_valid_credentials:40 -   6 - Verify account created message appears
+2026-04-08 20:46:01 [    INFO] test_registration - test_signup_with_valid_credentials:40 -   7 - Continue and verify user is logged in
+2026-04-08 20:46:01 [    INFO] test_registration - test_signup_with_valid_credentials:40 -   8 - Delete account and verify deletion message appears
+2026-04-08 20:46:01 [    INFO] test_registration - test_signup_with_valid_credentials:41 - ======================================================================
+
+2026-04-08 20:46:22 [    INFO] test_registration - test_signup_with_valid_credentials:50 - Loaded homepage successfully
+2026-04-08 20:46:22 [    INFO] test_registration - test_signup_with_valid_credentials:51 -   Current URL: https://automationexercise.com/
+2026-04-08 20:46:23 [    INFO] test_registration - test_signup_with_valid_credentials:55 - Navigated to signup page successfully
+2026-04-08 20:46:23 [    INFO] test_registration - test_signup_with_valid_credentials:56 -   Current URL: https://automationexercise.com/login
+2026-04-08 20:46:24 [    INFO] test_registration - test_signup_with_valid_credentials:60 - Entered signup credentials successfully
+2026-04-08 20:46:24 [    INFO] test_registration - test_signup_with_valid_credentials:61 -   Name: ******************
+2026-04-08 20:46:24 [    INFO] test_registration - test_signup_with_valid_credentials:62 -   Email: ****************************************
+2026-04-08 20:46:24 [    INFO] test_registration - test_signup_with_valid_credentials:69 - Account information page is visible
+2026-04-08 20:46:26 [    INFO] test_registration - test_signup_with_valid_credentials:90 - Entered account and address information successfully
+2026-04-08 20:46:26 [    INFO] test_registration - test_signup_with_valid_credentials:97 - Account created message is visible
+2026-04-08 20:46:26 [    INFO] test_registration - test_signup_with_valid_credentials:105 - User is logged in successfully
+2026-04-08 20:46:28 [    INFO] test_registration - test_signup_with_valid_credentials:114 - Account deleted successfully
+2026-04-08 20:46:28 [    INFO] test_registration - test_signup_with_valid_credentials:116 - 
+======================================================================
+2026-04-08 20:46:28 [    INFO] test_registration - test_signup_with_valid_credentials:117 - TEST PASSED: test_signup_with_valid_credentials
+2026-04-08 20:46:28 [    INFO] test_registration - test_signup_with_valid_credentials:118 - ======================================================================
+

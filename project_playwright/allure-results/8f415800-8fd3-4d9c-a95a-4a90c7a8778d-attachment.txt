@@ -1,0 +1,12 @@
+INFO     test_case_20_search_products_verify_cart_after_login:test_case_helpers.py:9 
+======================================================================
+INFO     test_case_20_search_products_verify_cart_after_login:test_case_helpers.py:10 TEST: test_case_20_search_products_verify_cart_after_login
+INFO     test_case_20_search_products_verify_cart_after_login:test_case_helpers.py:11 Scenarios:
+INFO     test_case_20_search_products_verify_cart_after_login:test_case_helpers.py:13   1 - Open products page and search product
+INFO     test_case_20_search_products_verify_cart_after_login:test_case_helpers.py:13   2 - Add searched product to cart and verify before login
+INFO     test_case_20_search_products_verify_cart_after_login:test_case_helpers.py:13   3 - Login and verify same product remains in cart
+INFO     test_case_20_search_products_verify_cart_after_login:test_case_helpers.py:14 ======================================================================
+
+INFO     test_case_20_search_products_verify_cart_after_login:test_case_20_search_products_verify_cart_after_login.py:42 Scenario 1 passed
+INFO     test_case_20_search_products_verify_cart_after_login:test_case_20_search_products_verify_cart_after_login.py:57 Scenario 2 passed
+INFO     test_case_20_search_products_verify_cart_after_login:test_case_20_search_products_verify_cart_after_login.py:74 Scenario 3 passed

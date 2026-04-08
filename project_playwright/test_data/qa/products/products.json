@@ -1,0 +1,18 @@
+[
+  {
+    "search_product": "Blue Top",
+    "review_name": "QA Reviewer",
+    "review_email": "qa.reviewer@example.com",
+    "review_text": "Great quality product from automated test.",
+    "women_category": "Women",
+    "women_sub_category": "Dress",
+    "men_category": "Men",
+    "men_sub_category": "Tshirts",
+    "brand_one": "POLO",
+    "brand_two": "H&M",
+    "expected_product_name": "Blue Top",
+    "expected_category_text": "Category: Women > Tops",
+    "expected_brand_text": "Brand: Polo",
+    "expected_review_success": "Thank you for your review."
+  }
+]

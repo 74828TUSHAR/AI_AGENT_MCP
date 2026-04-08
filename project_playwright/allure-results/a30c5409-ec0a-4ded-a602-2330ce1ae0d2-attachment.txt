@@ -1,0 +1,12 @@
+INFO     test_case_09_search_product:test_case_helpers.py:9 
+======================================================================
+INFO     test_case_09_search_product:test_case_helpers.py:10 TEST: test_case_09_search_product
+INFO     test_case_09_search_product:test_case_helpers.py:11 Scenarios:
+INFO     test_case_09_search_product:test_case_helpers.py:13   1 - Navigate to products page
+INFO     test_case_09_search_product:test_case_helpers.py:13   2 - Enter product name in search input and search
+INFO     test_case_09_search_product:test_case_helpers.py:13   3 - Verify searched products are visible
+INFO     test_case_09_search_product:test_case_helpers.py:14 ======================================================================
+
+INFO     test_case_09_search_product:test_case_09_search_product.py:37 Scenario 1 passed
+INFO     test_case_09_search_product:test_case_09_search_product.py:50 Scenario 2 passed
+INFO     test_case_09_search_product:test_case_09_search_product.py:64 Scenario 3 passed

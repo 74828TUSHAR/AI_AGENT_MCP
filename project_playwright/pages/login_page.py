@@ -18,16 +18,25 @@ class LoginPage:
             await element.click()
 
     async def login(self, username: str, password: str):
-        await self.page.locator(self.locators.login_email_testid).fill(username)
-        await self.page.get_by_placeholder(self.locators.login_password_placeholder).fill(password)
+        await self.page.get_by_test_id(self.locators.login_email_testid).fill(username)
+        await self.page.get_by_test_id(self.locators.login_password_testid).fill(password)
         await self.page.get_by_role(self.locators.login_button_role, name=self.locators.login_button_name).click()
         # Wait for page to load after button click
         await self.page.wait_for_load_state("domcontentloaded")
 
     async def is_logged_in(self) -> bool:
-        logged_in_element = self.page.get_by_text(self.locators.logged_in_text)
-        return await logged_in_element.is_visible()
+        return self.locators.logged_in_text in await self.page.evaluate("document.body.innerText")
 
     async def get_error_message(self) -> str:
         error_element = self.page.get_by_text(self.locators.error_message_text)
         return await error_element.inner_text()
+
+    async def is_login_form_visible(self) -> bool:
+        login_form_text = self.page.get_by_text(self.locators.login_form_heading)
+        return await login_form_text.is_visible()
+
+    async def logout(self):
+        await self.page.get_by_role(
+            self.locators.logout_button_role, name=self.locators.logout_button_name
+        ).click()
+        await self.page.wait_for_load_state("domcontentloaded")

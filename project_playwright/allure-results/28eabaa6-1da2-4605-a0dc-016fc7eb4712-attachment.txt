@@ -1,0 +1,14 @@
+INFO     test_case_08_verify_all_products_and_detail:test_case_helpers.py:9 
+======================================================================
+INFO     test_case_08_verify_all_products_and_detail:test_case_helpers.py:10 TEST: test_case_08_verify_all_products_and_detail
+INFO     test_case_08_verify_all_products_and_detail:test_case_helpers.py:11 Scenarios:
+INFO     test_case_08_verify_all_products_and_detail:test_case_helpers.py:13   1 - Navigate to base URL and open products page
+INFO     test_case_08_verify_all_products_and_detail:test_case_helpers.py:13   2 - Verify all products list page is visible
+INFO     test_case_08_verify_all_products_and_detail:test_case_helpers.py:13   3 - Open first product details page
+INFO     test_case_08_verify_all_products_and_detail:test_case_helpers.py:13   4 - Verify product details are visible
+INFO     test_case_08_verify_all_products_and_detail:test_case_helpers.py:14 ======================================================================
+
+INFO     test_case_08_verify_all_products_and_detail:test_case_08_verify_all_products_and_detail.py:37 Scenario 1 passed
+INFO     test_case_08_verify_all_products_and_detail:test_case_08_verify_all_products_and_detail.py:50 Scenario 2 passed
+INFO     test_case_08_verify_all_products_and_detail:test_case_08_verify_all_products_and_detail.py:63 Scenario 3 passed
+INFO     test_case_08_verify_all_products_and_detail:test_case_08_verify_all_products_and_detail.py:81 Scenario 4 passed

@@ -1,0 +1,18 @@
+INFO     test_case_02_login_valid:test_case_helpers.py:9 
+======================================================================
+INFO     test_case_02_login_valid:test_case_helpers.py:10 TEST: test_case_02_login_valid
+INFO     test_case_02_login_valid:test_case_helpers.py:11 Scenarios:
+INFO     test_case_02_login_valid:test_case_helpers.py:13   1 - Navigate to base URL and load homepage
+INFO     test_case_02_login_valid:test_case_helpers.py:13   2 - Click Signup/Login link and navigate to login page
+INFO     test_case_02_login_valid:test_case_helpers.py:13   3 - Enter valid email and password credentials
+INFO     test_case_02_login_valid:test_case_helpers.py:13   4 - Click login button and submit form
+INFO     test_case_02_login_valid:test_case_helpers.py:13   5 - Verify logged in message appears
+INFO     test_case_02_login_valid:test_case_helpers.py:14 ======================================================================
+
+INFO     test_case_02_login_valid:test_case_02_login_valid.py:36 Scenario 1 passed
+INFO     test_case_02_login_valid:test_case_02_login_valid.py:50 Scenario 2 passed
+INFO     test_case_02_login_valid:test_case_02_login_valid.py:62 Email: *****************
+INFO     test_case_02_login_valid:test_case_02_login_valid.py:63 Password: *********
+INFO     test_case_02_login_valid:test_case_02_login_valid.py:65 Scenario 3 passed
+INFO     test_case_02_login_valid:test_case_02_login_valid.py:75 Scenario 4 completed during login() method call
+INFO     test_case_02_login_valid:test_case_02_login_valid.py:83 Scenario 5 passed

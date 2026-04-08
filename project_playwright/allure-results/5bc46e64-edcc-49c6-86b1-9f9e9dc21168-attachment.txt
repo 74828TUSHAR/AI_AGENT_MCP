@@ -1,0 +1,20 @@
+2026-04-08 21:09:35 [    INFO] test_case_01_register_user - log_test_header:9 - 
+======================================================================
+2026-04-08 21:09:35 [    INFO] test_case_01_register_user - log_test_header:10 - TEST: test_case_01_register_user
+2026-04-08 21:09:35 [    INFO] test_case_01_register_user - log_test_header:11 - Scenarios:
+2026-04-08 21:09:35 [    INFO] test_case_01_register_user - log_test_header:13 -   1 - Navigate to base URL and load homepage
+2026-04-08 21:09:35 [    INFO] test_case_01_register_user - log_test_header:13 -   2 - Click Signup/Login link and navigate to signup page
+2026-04-08 21:09:35 [    INFO] test_case_01_register_user - log_test_header:13 -   3 - Enter valid signup name and email
+2026-04-08 21:09:35 [    INFO] test_case_01_register_user - log_test_header:13 -   4 - Enter account and address information
+2026-04-08 21:09:35 [    INFO] test_case_01_register_user - log_test_header:13 -   5 - Verify account created and logged in state
+2026-04-08 21:09:35 [    INFO] test_case_01_register_user - log_test_header:13 -   6 - Delete account and verify deletion message
+2026-04-08 21:09:35 [    INFO] test_case_01_register_user - log_test_header:14 - ======================================================================
+
+2026-04-08 21:09:40 [    INFO] test_case_01_register_user - test_case_01_register_user:43 - Scenario 1 passed
+2026-04-08 21:09:43 [    INFO] test_case_01_register_user - test_case_01_register_user:57 - Scenario 2 passed
+2026-04-08 21:09:43 [    INFO] test_case_01_register_user - test_case_01_register_user:69 - Name: ******************
+2026-04-08 21:09:43 [    INFO] test_case_01_register_user - test_case_01_register_user:70 - Email: **********************************************
+2026-04-08 21:09:45 [    INFO] test_case_01_register_user - test_case_01_register_user:73 - Scenario 3 passed
+2026-04-08 21:09:53 [    INFO] test_case_01_register_user - test_case_01_register_user:103 - Scenario 4 passed
+2026-04-08 21:09:56 [    INFO] test_case_01_register_user - test_case_01_register_user:118 - Scenario 5 passed
+2026-04-08 21:10:04 [    INFO] test_case_01_register_user - test_case_01_register_user:133 - Scenario 6 passed

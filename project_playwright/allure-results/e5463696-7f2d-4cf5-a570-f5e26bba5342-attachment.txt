@@ -1,0 +1,31 @@
+ERROR    asyncio:base_events.py:1771 Task exception was never retrieved
+future: <Task finished name='Task-2' coro=<Connection.run() done, defined at C:\Users\TUSHAR\Desktop\Playwright_Framework\playwright\Lib\site-packages\playwright\_impl\_connection.py:305> exception=PermissionError(13, 'Access is denied', None, 5, None)>
+Traceback (most recent call last):
+  File "C:\Users\TUSHAR\Desktop\Playwright_Framework\playwright\Lib\site-packages\playwright\_impl\_connection.py", line 312, in run
+    await self._transport.connect()
+  File "C:\Users\TUSHAR\Desktop\Playwright_Framework\playwright\Lib\site-packages\playwright\_impl\_transport.py", line 133, in connect
+    raise exc
+  File "C:\Users\TUSHAR\Desktop\Playwright_Framework\playwright\Lib\site-packages\playwright\_impl\_transport.py", line 120, in connect
+    self._proc = await asyncio.create_subprocess_exec(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\TUSHAR\AppData\Local\Programs\Python\Python311\Lib\asyncio\subprocess.py", line 218, in create_subprocess_exec
+    transport, protocol = await loop.subprocess_exec(
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\TUSHAR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1694, in subprocess_exec
+    transport = await self._make_subprocess_transport(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\TUSHAR\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 399, in _make_subprocess_transport
+    transp = _WindowsSubprocessTransport(self, protocol, args, shell,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\TUSHAR\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_subprocess.py", line 36, in __init__
+    self._start(args=args, shell=shell, stdin=stdin, stdout=stdout,
+  File "C:\Users\TUSHAR\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 921, in _start
+    self._proc = windows_utils.Popen(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\TUSHAR\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_utils.py", line 136, in __init__
+    stdin_rh, stdin_wh = pipe(overlapped=(False, True), duplex=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\TUSHAR\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_utils.py", line 63, in pipe
+    h2 = _winapi.CreateFile(
+         ^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] Access is denied

@@ -1,0 +1,30 @@
+INFO     test_registration:test_registration.py:36 
+======================================================================
+INFO     test_registration:test_registration.py:37 TEST: test_signup_with_valid_credentials
+INFO     test_registration:test_registration.py:38 Scenarios:
+INFO     test_registration:test_registration.py:40   1 - Navigate to base URL and load homepage
+INFO     test_registration:test_registration.py:40   2 - Click Signup/Login link and navigate to signup page
+INFO     test_registration:test_registration.py:40   3 - Enter valid name and email credentials
+INFO     test_registration:test_registration.py:40   4 - Verify account information page is visible
+INFO     test_registration:test_registration.py:40   5 - Enter account and address information
+INFO     test_registration:test_registration.py:40   6 - Verify account created message appears
+INFO     test_registration:test_registration.py:40   7 - Continue and verify user is logged in
+INFO     test_registration:test_registration.py:40   8 - Delete account and verify deletion message appears
+INFO     test_registration:test_registration.py:41 ======================================================================
+
+INFO     test_registration:test_registration.py:50 Loaded homepage successfully
+INFO     test_registration:test_registration.py:51   Current URL: https://automationexercise.com/
+INFO     test_registration:test_registration.py:55 Navigated to signup page successfully
+INFO     test_registration:test_registration.py:56   Current URL: https://automationexercise.com/login
+INFO     test_registration:test_registration.py:60 Entered signup credentials successfully
+INFO     test_registration:test_registration.py:61   Name: ******************
+INFO     test_registration:test_registration.py:62   Email: ****************************************
+INFO     test_registration:test_registration.py:69 Account information page is visible
+INFO     test_registration:test_registration.py:90 Entered account and address information successfully
+INFO     test_registration:test_registration.py:97 Account created message is visible
+INFO     test_registration:test_registration.py:105 User is logged in successfully
+INFO     test_registration:test_registration.py:114 Account deleted successfully
+INFO     test_registration:test_registration.py:116 
+======================================================================
+INFO     test_registration:test_registration.py:117 TEST PASSED: test_signup_with_valid_credentials
+INFO     test_registration:test_registration.py:118 ======================================================================

@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Playwright QA User",
+    "email_template": "playwright.qa.{timestamp}@example.com",
+    "password": "Admin@123",
+    "day": "10",
+    "month": "5",
+    "year": "1995",
+    "first_name": "Playwright",
+    "last_name": "User",
+    "company": "Automation QA",
+    "address": "123 Test Street",
+    "address_2": "Suite 45",
+    "country": "India",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "zipcode": 560001,
+    "mobile_number": 9876543210,
+    "expect_information_page": true,
+    "expect_account_created": true,
+    "expect_logged_in": true,
+    "expect_account_deleted": true
+  }
+]

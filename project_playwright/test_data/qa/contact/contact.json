@@ -1,0 +1,10 @@
+[
+  {
+    "name": "QA Contact User",
+    "email": "qa.contact@example.com",
+    "subject": "Automation Contact Subject",
+    "message": "This is a Playwright contact form submission.",
+    "upload_file": "README.md",
+    "expect_success_message": "Success! Your details have been submitted successfully."
+  }
+]

@@ -1,0 +1,12 @@
+INFO     test_case_12_add_products_in_cart:test_case_helpers.py:9 
+======================================================================
+INFO     test_case_12_add_products_in_cart:test_case_helpers.py:10 TEST: test_case_12_add_products_in_cart
+INFO     test_case_12_add_products_in_cart:test_case_helpers.py:11 Scenarios:
+INFO     test_case_12_add_products_in_cart:test_case_helpers.py:13   1 - Navigate to products page
+INFO     test_case_12_add_products_in_cart:test_case_helpers.py:13   2 - Add first and second products to cart
+INFO     test_case_12_add_products_in_cart:test_case_helpers.py:13   3 - Verify both products and cart details
+INFO     test_case_12_add_products_in_cart:test_case_helpers.py:14 ======================================================================
+
+INFO     test_case_12_add_products_in_cart:test_case_12_add_products_in_cart.py:38 Scenario 1 passed
+INFO     test_case_12_add_products_in_cart:test_case_12_add_products_in_cart.py:54 Scenario 2 passed
+INFO     test_case_12_add_products_in_cart:test_case_12_add_products_in_cart.py:71 Scenario 3 passed

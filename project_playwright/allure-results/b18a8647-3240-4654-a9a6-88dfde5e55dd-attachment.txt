@@ -1,0 +1,55 @@
+2026-04-08 20:38:42 [    INFO] test_login_authentication - test_login_with_invalid_password:234 - 
+======================================================================
+2026-04-08 20:38:42 [    INFO] test_login_authentication - test_login_with_invalid_password:235 - TEST: test_login_with_invalid_password
+2026-04-08 20:38:42 [    INFO] test_login_authentication - test_login_with_invalid_password:236 - Scenarios:
+2026-04-08 20:38:42 [    INFO] test_login_authentication - test_login_with_invalid_password:238 -   1 - Navigate to base URL and load homepage
+2026-04-08 20:38:42 [    INFO] test_login_authentication - test_login_with_invalid_password:238 -   2 - Click Signup/Login link and navigate to login page
+2026-04-08 20:38:42 [    INFO] test_login_authentication - test_login_with_invalid_password:238 -   3 - Enter invalid password credentials
+2026-04-08 20:38:42 [    INFO] test_login_authentication - test_login_with_invalid_password:238 -   4 - Click login button and submit form
+2026-04-08 20:38:42 [    INFO] test_login_authentication - test_login_with_invalid_password:238 -   5 - Verify error message appears
+2026-04-08 20:38:42 [    INFO] test_login_authentication - test_login_with_invalid_password:239 - ======================================================================
+
+2026-04-08 20:38:42 [    INFO] test_login_authentication - test_login_with_invalid_password:251 - 
+======================================================================
+2026-04-08 20:38:42 [    INFO] test_login_authentication - test_login_with_invalid_password:252 - Scenario 1: Navigate to base URL and load homepage
+2026-04-08 20:38:42 [    INFO] test_login_authentication - test_login_with_invalid_password:253 -   URL: https://automationexercise.com/
+2026-04-08 20:38:42 [    INFO] test_login_authentication - test_login_with_invalid_password:254 - ======================================================================
+2026-04-08 20:38:45 [    INFO] test_login_authentication - test_login_with_invalid_password:258 - ✓ Homepage loaded successfully
+2026-04-08 20:38:45 [    INFO] test_login_authentication - test_login_with_invalid_password:259 -   Page Title: Automation Exercise
+2026-04-08 20:38:45 [    INFO] test_login_authentication - test_login_with_invalid_password:260 -   Current URL: https://automationexercise.com/
+2026-04-08 20:38:45 [    INFO] test_login_authentication - test_login_with_invalid_password:276 - 
+======================================================================
+2026-04-08 20:38:45 [    INFO] test_login_authentication - test_login_with_invalid_password:277 - Scenario 2: Click Signup/Login link and navigate to login page
+2026-04-08 20:38:45 [    INFO] test_login_authentication - test_login_with_invalid_password:279 - ======================================================================
+2026-04-08 20:38:46 [    INFO] test_login_authentication - test_login_with_invalid_password:282 - ✓ Successfully clicked Signup/Login link
+2026-04-08 20:38:46 [    INFO] test_login_authentication - test_login_with_invalid_password:283 -   Current URL: https://automationexercise.com/login
+2026-04-08 20:38:46 [    INFO] test_login_authentication - test_login_with_invalid_password:299 - 
+======================================================================
+2026-04-08 20:38:46 [    INFO] test_login_authentication - test_login_with_invalid_password:300 - Scenario 3: Enter invalid password credentials
+2026-04-08 20:38:46 [    INFO] test_login_authentication - test_login_with_invalid_password:301 -   Email: ***************
+2026-04-08 20:38:46 [    INFO] test_login_authentication - test_login_with_invalid_password:302 -   Password: ********* (from test data)
+2026-04-08 20:38:46 [    INFO] test_login_authentication - test_login_with_invalid_password:303 - ======================================================================
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:306 - ✓ Credentials entered
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:307 -   Email field filled with: ***************
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:309 -   Password field filled with: *********
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:322 - 
+======================================================================
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:323 - Scenario 4: Click login button and submit form
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:324 - ======================================================================
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:325 - ✓ Login button clicked and form submitted
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:326 -   Waiting for page response...
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:333 - 
+======================================================================
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:334 - Scenario 5: Verify error message appears
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:335 - ======================================================================
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:340 - ✓ Error message captured
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:341 -   Expected: 'Your email or password is incorrect!'
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:342 -   Actual: 'Your email or password is incorrect!'
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:343 -   Current URL: https://automationexercise.com/login
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:353 - ✓ Error message verified successfully (as expected for invalid password)
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:373 - 
+======================================================================
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:374 - ✓✓✓ TEST PASSED ✓✓✓
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:375 - Invalid password correctly showed error message
+2026-04-08 20:38:47 [    INFO] test_login_authentication - test_login_with_invalid_password:376 - ======================================================================
+

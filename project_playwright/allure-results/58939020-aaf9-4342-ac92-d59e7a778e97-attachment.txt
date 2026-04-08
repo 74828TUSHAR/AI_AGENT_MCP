@@ -1,0 +1,46 @@
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:54 
+======================================================================
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:55 TEST: test_login_with_valid_credentials
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:56 Scenarios:
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:58   1 - Navigate to base URL and load homepage
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:58   2 - Click Signup/Login link and navigate to login page
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:58   3 - Enter valid email and password credentials
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:58   4 - Click login button and submit form
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:58   5 - Verify 'Logged in as' message appears
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:59 ======================================================================
+
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:68 
+======================================================================
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:69 Scenario 1: Navigate to base URL and load homepage
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:70   URL: https://automationexercise.com/
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:71 ======================================================================
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:75 ✓ Homepage loaded successfully
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:76   Page Title: Automation Exercise
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:77   Current URL: https://automationexercise.com/
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:93 
+======================================================================
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:94 Scenario 2: Click Signup/Login link and navigate to login page
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:96 ======================================================================
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:99 ✓ Successfully clicked Signup/Login link
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:100   Current URL: https://automationexercise.com/login
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:116 
+======================================================================
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:117 Scenario 3: Enter valid email and password credentials
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:119   Email: *****************
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:120   Password: *********
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:121 ======================================================================
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:124 ✓ Credentials entered successfully
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:125   Email field filled with: *****************
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:127   Password field filled
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:140 
+======================================================================
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:141 Scenario 4: Click login button and submit form
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:142 ======================================================================
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:144 ✓ Login button clicked and form submitted
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:145   Page is loading...
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:152 
+======================================================================
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:153 Scenario 5: Verify 'Logged in as' message appears
+[32mINFO    [0m test_login_authentication:test_login_authentication.py:154 ======================================================================
+[31m[1mERROR   [0m test_login_authentication:test_login_authentication.py:185 ✗ FAILED at Scenario 5 (Line 23)
+[31m[1mERROR   [0m test_login_authentication:test_login_authentication.py:186   Error: list index out of range

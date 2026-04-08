@@ -1,0 +1,6 @@
+[
+  {
+    "subscription_email": "subscriber@example.com",
+    "expected_subscription_message": "You have been successfully subscribed!"
+  }
+]

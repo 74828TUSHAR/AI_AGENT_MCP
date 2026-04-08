@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Order User",
+    "email_template": "order.user.{timestamp}@example.com",
+    "password": "Admin@123",
+    "day": "10",
+    "month": "5",
+    "year": "1995",
+    "first_name": "Order",
+    "last_name": "User",
+    "company": "Automation QA",
+    "address": "123 Test Street",
+    "address_2": "Suite 45",
+    "country": "India",
+    "state": "Karnataka",
+    "city": "Bengaluru",
+    "zipcode": "560001",
+    "mobile_number": "9876543210",
+    "comment": "Please deliver this automated order carefully.",
+    "name_on_card": "Order User",
+    "card_number": "4111111111111111",
+    "cvc": "311",
+    "expiry_month": "12",
+    "expiry_year": "2028",
+    "expected_order_message": "Congratulations! Your order has been confirmed!"
+  }
+]

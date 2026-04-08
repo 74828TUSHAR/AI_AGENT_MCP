@@ -1,0 +1,14 @@
+2026-04-08 21:18:20 [    INFO] test_case_23_verify_address_details_checkout - log_test_header:9 - 
+======================================================================
+2026-04-08 21:18:20 [    INFO] test_case_23_verify_address_details_checkout - log_test_header:10 - TEST: test_case_23_verify_address_details_checkout
+2026-04-08 21:18:20 [    INFO] test_case_23_verify_address_details_checkout - log_test_header:11 - Scenarios:
+2026-04-08 21:18:20 [    INFO] test_case_23_verify_address_details_checkout - log_test_header:13 -   1 - Register user and login successfully
+2026-04-08 21:18:20 [    INFO] test_case_23_verify_address_details_checkout - log_test_header:13 -   2 - Add product to cart and proceed to checkout
+2026-04-08 21:18:20 [    INFO] test_case_23_verify_address_details_checkout - log_test_header:13 -   3 - Verify delivery and billing address details
+2026-04-08 21:18:20 [    INFO] test_case_23_verify_address_details_checkout - log_test_header:13 -   4 - Delete account and verify deletion message
+2026-04-08 21:18:20 [    INFO] test_case_23_verify_address_details_checkout - log_test_header:14 - ======================================================================
+
+2026-04-08 21:18:27 [    INFO] test_case_23_verify_address_details_checkout - test_case_23_verify_address_details_checkout:40 - Scenario 1 passed
+2026-04-08 21:18:31 [    INFO] test_case_23_verify_address_details_checkout - test_case_23_verify_address_details_checkout:54 - Scenario 2 passed
+2026-04-08 21:18:31 [    INFO] test_case_23_verify_address_details_checkout - test_case_23_verify_address_details_checkout:71 - Scenario 3 passed
+2026-04-08 21:18:32 [    INFO] test_case_23_verify_address_details_checkout - test_case_23_verify_address_details_checkout:86 - Scenario 4 passed

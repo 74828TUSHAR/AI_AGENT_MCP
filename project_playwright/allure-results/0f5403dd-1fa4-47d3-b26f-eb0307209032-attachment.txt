@@ -1,0 +1,12 @@
+2026-04-08 21:16:20 [    INFO] test_case_10_subscription_home - log_test_header:9 - 
+======================================================================
+2026-04-08 21:16:20 [    INFO] test_case_10_subscription_home - log_test_header:10 - TEST: test_case_10_subscription_home
+2026-04-08 21:16:20 [    INFO] test_case_10_subscription_home - log_test_header:11 - Scenarios:
+2026-04-08 21:16:20 [    INFO] test_case_10_subscription_home - log_test_header:13 -   1 - Navigate to base URL and load homepage
+2026-04-08 21:16:20 [    INFO] test_case_10_subscription_home - log_test_header:13 -   2 - Scroll to footer and verify subscription text
+2026-04-08 21:16:20 [    INFO] test_case_10_subscription_home - log_test_header:13 -   3 - Subscribe with email and verify success message
+2026-04-08 21:16:20 [    INFO] test_case_10_subscription_home - log_test_header:14 - ======================================================================
+
+2026-04-08 21:16:22 [    INFO] test_case_10_subscription_home - test_case_10_subscription_home:34 - Scenario 1 passed
+2026-04-08 21:16:23 [    INFO] test_case_10_subscription_home - test_case_10_subscription_home:48 - Scenario 2 passed
+2026-04-08 21:16:23 [    INFO] test_case_10_subscription_home - test_case_10_subscription_home:62 - Scenario 3 passed

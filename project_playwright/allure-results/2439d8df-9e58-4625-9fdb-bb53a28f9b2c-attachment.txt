@@ -1,0 +1,12 @@
+INFO     test_case_22_add_to_cart_from_recommended:test_case_helpers.py:9 
+======================================================================
+INFO     test_case_22_add_to_cart_from_recommended:test_case_helpers.py:10 TEST: test_case_22_add_to_cart_from_recommended
+INFO     test_case_22_add_to_cart_from_recommended:test_case_helpers.py:11 Scenarios:
+INFO     test_case_22_add_to_cart_from_recommended:test_case_helpers.py:13   1 - Navigate to homepage and verify recommended items section
+INFO     test_case_22_add_to_cart_from_recommended:test_case_helpers.py:13   2 - Add recommended item to cart
+INFO     test_case_22_add_to_cart_from_recommended:test_case_helpers.py:13   3 - Open cart and verify recommended item is present
+INFO     test_case_22_add_to_cart_from_recommended:test_case_helpers.py:14 ======================================================================
+
+INFO     test_case_22_add_to_cart_from_recommended:test_case_22_add_to_cart_from_recommended.py:36 Scenario 1 passed
+INFO     test_case_22_add_to_cart_from_recommended:test_case_22_add_to_cart_from_recommended.py:49 Scenario 2 passed
+INFO     test_case_22_add_to_cart_from_recommended:test_case_22_add_to_cart_from_recommended.py:64 Scenario 3 passed

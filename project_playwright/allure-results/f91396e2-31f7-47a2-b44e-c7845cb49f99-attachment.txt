@@ -1,0 +1,12 @@
+2026-04-08 21:16:29 [    INFO] test_case_12_add_products_in_cart - log_test_header:9 - 
+======================================================================
+2026-04-08 21:16:29 [    INFO] test_case_12_add_products_in_cart - log_test_header:10 - TEST: test_case_12_add_products_in_cart
+2026-04-08 21:16:29 [    INFO] test_case_12_add_products_in_cart - log_test_header:11 - Scenarios:
+2026-04-08 21:16:29 [    INFO] test_case_12_add_products_in_cart - log_test_header:13 -   1 - Navigate to products page
+2026-04-08 21:16:29 [    INFO] test_case_12_add_products_in_cart - log_test_header:13 -   2 - Add first and second products to cart
+2026-04-08 21:16:29 [    INFO] test_case_12_add_products_in_cart - log_test_header:13 -   3 - Verify both products and cart details
+2026-04-08 21:16:29 [    INFO] test_case_12_add_products_in_cart - log_test_header:14 - ======================================================================
+
+2026-04-08 21:16:35 [    INFO] test_case_12_add_products_in_cart - test_case_12_add_products_in_cart:38 - Scenario 1 passed
+2026-04-08 21:16:37 [    INFO] test_case_12_add_products_in_cart - test_case_12_add_products_in_cart:54 - Scenario 2 passed
+2026-04-08 21:16:37 [    INFO] test_case_12_add_products_in_cart - test_case_12_add_products_in_cart:71 - Scenario 3 passed
