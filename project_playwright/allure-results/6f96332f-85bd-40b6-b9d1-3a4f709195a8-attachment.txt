@@ -1,0 +1,2 @@
+2026-04-08 23:35:02,056 | INFO | AutomationExerciseApiClient | API REQUEST | method=GET | endpoint=/api/getUserDetailByEmail | params=None | form=None | headers=None
+2026-04-08 23:35:03,172 | INFO | AutomationExerciseApiClient | API RESPONSE | method=GET | endpoint=/api/getUserDetailByEmail | http_status=200 | response_code=400 | message=Bad request, email parameter is missing in GET request. | duration_ms=1110

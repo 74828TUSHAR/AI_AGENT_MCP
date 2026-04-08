@@ -1,0 +1,10 @@
+2026-04-08 23:35:29 [    INFO] UI.nightly.regression.test_api_case_06 - log_test_header:9 - 
+======================================================================
+2026-04-08 23:35:29 [    INFO] UI.nightly.regression.test_api_case_06 - log_test_header:10 - TEST: test_api_case_06_search_product_without_parameter
+2026-04-08 23:35:29 [    INFO] UI.nightly.regression.test_api_case_06 - log_test_header:11 - Scenarios:
+2026-04-08 23:35:29 [    INFO] UI.nightly.regression.test_api_case_06 - log_test_header:13 -   1 - Send POST request to search product API without parameter and verify bad request response
+2026-04-08 23:35:29 [    INFO] UI.nightly.regression.test_api_case_06 - log_test_header:14 - ======================================================================
+
+2026-04-08 23:35:30 [    INFO] UI.nightly.regression.test_api_case_06 - assert_api_field_equal:41 - API ASSERTION PASSED | field=response_code | expected=400 | actual=400
+2026-04-08 23:35:30 [    INFO] UI.nightly.regression.test_api_case_06 - assert_api_field_equal:41 - API ASSERTION PASSED | field=message | expected=Bad request, search_product parameter is missing in POST request. | actual=Bad request, search_product parameter is missing in POST request.
+2026-04-08 23:35:30 [    INFO] UI.nightly.regression.test_api_case_06 - run_api_scenario:8 - Scenario 1 passed

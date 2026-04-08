@@ -1,0 +1,2 @@
+2026-04-08 23:35:27,063 | INFO | AutomationExerciseApiClient | API REQUEST | method=POST | endpoint=/api/searchProduct | params=None | form={'search_product': 'top'} | headers=None
+2026-04-08 23:35:28,204 | INFO | AutomationExerciseApiClient | API RESPONSE | method=POST | endpoint=/api/searchProduct | http_status=200 | response_code=200 | message=None | duration_ms=1134

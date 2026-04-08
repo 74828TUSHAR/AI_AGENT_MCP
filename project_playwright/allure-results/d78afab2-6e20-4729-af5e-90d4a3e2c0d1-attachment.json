@@ -1,0 +1,14 @@
+{
+  "method": "DELETE",
+  "endpoint": "/api/verifyLogin",
+  "url": "https://automationexercise.com/api/verifyLogin",
+  "http_status": 200,
+  "response_code": 405,
+  "message": "This request method is not supported.",
+  "duration_ms": 1099,
+  "body_json": {
+    "responseCode": 405,
+    "message": "This request method is not supported."
+  },
+  "body_text": "{\"responseCode\": 405, \"message\": \"This request method is not supported.\"}"
+}

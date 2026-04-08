@@ -1,0 +1,12 @@
+INFO     UI.nightly.regression.test_api_case_10:test_case_helpers.py:9 
+======================================================================
+INFO     UI.nightly.regression.test_api_case_10:test_case_helpers.py:10 TEST: test_api_case_10_verify_login_invalid
+INFO     UI.nightly.regression.test_api_case_10:test_case_helpers.py:11 Scenarios:
+INFO     UI.nightly.regression.test_api_case_10:test_case_helpers.py:13   1 - Send POST request to verify login API with invalid email and password
+INFO     UI.nightly.regression.test_api_case_10:test_case_helpers.py:14 ======================================================================
+
+INFO     AutomationExerciseApiClient:api_client.py:80 API REQUEST | method=POST | endpoint=/api/verifyLogin | params=None | form={'email': 'invalid_api_user@mail.com', 'password': 'WrongPass@123'} | headers=None
+INFO     AutomationExerciseApiClient:api_client.py:90 API RESPONSE | method=POST | endpoint=/api/verifyLogin | http_status=200 | response_code=404 | message=User not found! | duration_ms=1090
+INFO     UI.nightly.regression.test_api_case_10:api_assertions.py:41 API ASSERTION PASSED | field=response_code | expected=404 | actual=404
+INFO     UI.nightly.regression.test_api_case_10:api_assertions.py:41 API ASSERTION PASSED | field=message | expected=User not found! | actual=User not found!
+INFO     UI.nightly.regression.test_api_case_10:api_test_runner.py:8 Scenario 1 passed

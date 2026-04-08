@@ -1,0 +1,10 @@
+2026-04-08 23:35:37 [    INFO] UI.nightly.regression.test_api_case_10 - log_test_header:9 - 
+======================================================================
+2026-04-08 23:35:37 [    INFO] UI.nightly.regression.test_api_case_10 - log_test_header:10 - TEST: test_api_case_10_verify_login_invalid
+2026-04-08 23:35:37 [    INFO] UI.nightly.regression.test_api_case_10 - log_test_header:11 - Scenarios:
+2026-04-08 23:35:37 [    INFO] UI.nightly.regression.test_api_case_10 - log_test_header:13 -   1 - Send POST request to verify login API with invalid email and password
+2026-04-08 23:35:37 [    INFO] UI.nightly.regression.test_api_case_10 - log_test_header:14 - ======================================================================
+
+2026-04-08 23:35:38 [    INFO] UI.nightly.regression.test_api_case_10 - assert_api_field_equal:41 - API ASSERTION PASSED | field=response_code | expected=404 | actual=404
+2026-04-08 23:35:38 [    INFO] UI.nightly.regression.test_api_case_10 - assert_api_field_equal:41 - API ASSERTION PASSED | field=message | expected=User not found! | actual=User not found!
+2026-04-08 23:35:38 [    INFO] UI.nightly.regression.test_api_case_10 - run_api_scenario:8 - Scenario 1 passed

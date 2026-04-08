@@ -1,0 +1,11 @@
+2026-04-08 23:35:59 [    INFO] UI.nightly.regression.test_api_case_20 - log_test_header:9 - 
+======================================================================
+2026-04-08 23:35:59 [    INFO] UI.nightly.regression.test_api_case_20 - log_test_header:10 - TEST: test_api_case_20_validate_search_results_payload_structure
+2026-04-08 23:35:59 [    INFO] UI.nightly.regression.test_api_case_20 - log_test_header:11 - Scenarios:
+2026-04-08 23:35:59 [    INFO] UI.nightly.regression.test_api_case_20 - log_test_header:13 -   1 - Verify search product response contains required top-level keys
+2026-04-08 23:35:59 [    INFO] UI.nightly.regression.test_api_case_20 - log_test_header:14 - ======================================================================
+
+2026-04-08 23:36:00 [    INFO] UI.nightly.regression.test_api_case_20 - assert_api_field_equal:41 - API ASSERTION PASSED | field=response_code | expected=200 | actual=200
+2026-04-08 23:36:00 [    INFO] UI.nightly.regression.test_api_case_20 - assert_api_truthy:67 - API ASSERTION PASSED | field=has_products_key | actual=True
+2026-04-08 23:36:00 [    INFO] UI.nightly.regression.test_api_case_20 - assert_api_truthy:67 - API ASSERTION PASSED | field=products_is_list | actual=True
+2026-04-08 23:36:00 [    INFO] UI.nightly.regression.test_api_case_20 - run_api_scenario:8 - Scenario 1 passed

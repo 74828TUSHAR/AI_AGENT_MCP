@@ -1,0 +1,15 @@
+INFO     UI.nightly.regression.test_api_case_17:test_case_helpers.py:9 
+======================================================================
+INFO     UI.nightly.regression.test_api_case_17:test_case_helpers.py:10 TEST: test_api_case_17_validate_product_item_fields
+INFO     UI.nightly.regression.test_api_case_17:test_case_helpers.py:11 Scenarios:
+INFO     UI.nightly.regression.test_api_case_17:test_case_helpers.py:13   1 - Verify first product item contains required product fields
+INFO     UI.nightly.regression.test_api_case_17:test_case_helpers.py:14 ======================================================================
+
+INFO     AutomationExerciseApiClient:api_client.py:80 API REQUEST | method=GET | endpoint=/api/productsList | params=None | form=None | headers=None
+INFO     AutomationExerciseApiClient:api_client.py:90 API RESPONSE | method=GET | endpoint=/api/productsList | http_status=200 | response_code=200 | message=None | duration_ms=1343
+INFO     UI.nightly.regression.test_api_case_17:api_assertions.py:67 API ASSERTION PASSED | field=first_product_id | actual=True
+INFO     UI.nightly.regression.test_api_case_17:api_assertions.py:67 API ASSERTION PASSED | field=first_product_name | actual=True
+INFO     UI.nightly.regression.test_api_case_17:api_assertions.py:67 API ASSERTION PASSED | field=first_product_price | actual=True
+INFO     UI.nightly.regression.test_api_case_17:api_assertions.py:67 API ASSERTION PASSED | field=first_product_brand | actual=True
+INFO     UI.nightly.regression.test_api_case_17:api_assertions.py:67 API ASSERTION PASSED | field=first_product_category | actual=True
+INFO     UI.nightly.regression.test_api_case_17:api_test_runner.py:8 Scenario 1 passed

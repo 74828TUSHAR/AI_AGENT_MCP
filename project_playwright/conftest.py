@@ -3,21 +3,91 @@ import pytest
 import yaml
 import logging
 import os
+import re
+import shutil
 from functools import lru_cache
 from pathlib import Path
 from playwright.async_api import async_playwright
 from utils.data_loader import load_json
+from core.api_client import AutomationExerciseApiClient
+
+
+def _get_int_env(name, default_value):
+    value = os.getenv(name)
+    return int(value) if value else default_value
+
+
+def _get_window_settings(env):
+    window_config = env.get("window", {})
+    window_mode = os.getenv("WINDOW_MODE", window_config.get("mode", "maximized")).lower()
+    width = _get_int_env("WINDOW_WIDTH", window_config.get("width", 1280))
+    height = _get_int_env("WINDOW_HEIGHT", window_config.get("height", 720))
+    return window_mode, width, height
+
+
+async def _apply_window_state(page, window_mode, width, height, headless):
+    if headless:
+        return
+
+    session = await page.context.new_cdp_session(page)
+    window_info = await session.send("Browser.getWindowForTarget")
+
+    if window_mode == "fullscreen":
+        await session.send(
+            "Browser.setWindowBounds",
+            {
+                "windowId": window_info["windowId"],
+                "bounds": {"windowState": "fullscreen"},
+            },
+        )
+        return
+
+    if window_mode == "maximized":
+        await session.send(
+            "Browser.setWindowBounds",
+            {
+                "windowId": window_info["windowId"],
+                "bounds": {"windowState": "maximized"},
+            },
+        )
+        return
+
+    if window_mode == "minimized":
+        await session.send(
+            "Browser.setWindowBounds",
+            {
+                "windowId": window_info["windowId"],
+                "bounds": {"windowState": "minimized"},
+            },
+        )
+        return
+
+    await session.send(
+        "Browser.setWindowBounds",
+        {
+            "windowId": window_info["windowId"],
+            "bounds": {
+                "left": 0,
+                "top": 0,
+                "width": width,
+                "height": height,
+                "windowState": "normal",
+            },
+        },
+    )
 
 
 @pytest.fixture(scope="function")
-async def page(env):
+async def page(env, request):
     async with async_playwright() as p:
         p.selectors.set_test_id_attribute("data-qa")
         headless = os.getenv("HEADLESS", "false").lower() == "true"
+        test_name = re.sub(r"[^A-Za-z0-9_.-]+", "_", request.node.name)
+        video_dir = Path("video")
+        temp_video_dir = video_dir / "_temp" / test_name
+        temp_video_dir.mkdir(parents=True, exist_ok=True)
 
-        window_mode = env.get("window", {}).get("mode", "custom")
-        width = env.get("window", {}).get("width", 1280)
-        height = env.get("window", {}).get("height", 720)
+        window_mode, width, height = _get_window_settings(env)
 
         args = []
         viewport = None
@@ -25,7 +95,7 @@ async def page(env):
         # ===============================
         # WINDOW MODE HANDLING
         # ===============================
-        if window_mode == "maximized":
+        if window_mode in ["maximized", "fullscreen"]:
             args.append("--start-maximized")
             viewport = None  # required
 
@@ -47,26 +117,33 @@ async def page(env):
             args=args
         )
 
-        context = await browser.new_context(viewport=viewport)
+        context = await browser.new_context(
+            viewport=viewport,
+            record_video_dir=str(temp_video_dir)
+        )
         page = await context.new_page()
 
-        # ===============================
-        # FORCE TRUE MAXIMIZE (IMPORTANT)
-        # ===============================
-        if window_mode == "maximized":
-            dimensions = await page.evaluate("""
-                () => ({
-                    width: window.screen.width,
-                    height: window.screen.height
-                })
-            """)
-
-            await page.set_viewport_size({
-                "width": dimensions["width"],
-                "height": dimensions["height"]
-            })
+        await _apply_window_state(page, window_mode, width, height, headless)
 
         yield page
+
+        await context.close()
+        test_failed = getattr(request.node, "rep_call", None) and request.node.rep_call.failed
+        final_video_path = video_dir / f"{test_name}.webm"
+        recorded_videos = list(temp_video_dir.glob("*.webm"))
+
+        if test_failed and recorded_videos:
+            video_dir.mkdir(exist_ok=True)
+            if final_video_path.exists():
+                final_video_path.unlink()
+            shutil.move(str(recorded_videos[0]), str(final_video_path))
+
+        if temp_video_dir.exists():
+            shutil.rmtree(temp_video_dir, ignore_errors=True)
+
+        temp_root = video_dir / "_temp"
+        if temp_root.exists() and not any(temp_root.iterdir()):
+            temp_root.rmdir()
 
         await browser.close()
 
@@ -81,6 +158,24 @@ def env(env_name):
     with open("config/env.yaml", "r") as f:
         config = yaml.safe_load(f)
     return config[env_name]
+
+
+@pytest.fixture(scope="session")
+def api_base_url(env):
+    return env.get("api_base_url", env["base_url"])
+
+
+@pytest.fixture(scope="function")
+async def api_context(api_base_url):
+    async with async_playwright() as p:
+        request_context = await p.request.new_context(base_url=api_base_url)
+        yield request_context
+        await request_context.dispose()
+
+
+@pytest.fixture(scope="function")
+def api_client(api_context):
+    return AutomationExerciseApiClient(api_context)
 
 
 @lru_cache(maxsize=None)
@@ -154,3 +249,10 @@ def pytest_runtest_setup(item):
     console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(formatter)
     logger.addHandler(console_handler)
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    report = outcome.get_result()
+    setattr(item, f"rep_{report.when}", report)

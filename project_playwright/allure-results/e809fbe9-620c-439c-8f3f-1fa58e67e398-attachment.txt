@@ -1,0 +1,18 @@
+2026-04-08 22:57:05 [    INFO] test_case_02_login_valid - log_test_header:9 - 
+======================================================================
+2026-04-08 22:57:05 [    INFO] test_case_02_login_valid - log_test_header:10 - TEST: test_case_02_login_valid
+2026-04-08 22:57:05 [    INFO] test_case_02_login_valid - log_test_header:11 - Scenarios:
+2026-04-08 22:57:05 [    INFO] test_case_02_login_valid - log_test_header:13 -   1 - Navigate to base URL and load homepage
+2026-04-08 22:57:05 [    INFO] test_case_02_login_valid - log_test_header:13 -   2 - Click Signup/Login link and navigate to login page
+2026-04-08 22:57:05 [    INFO] test_case_02_login_valid - log_test_header:13 -   3 - Enter valid email and password credentials
+2026-04-08 22:57:05 [    INFO] test_case_02_login_valid - log_test_header:13 -   4 - Click login button and submit form
+2026-04-08 22:57:05 [    INFO] test_case_02_login_valid - log_test_header:13 -   5 - Verify logged in message appears
+2026-04-08 22:57:05 [    INFO] test_case_02_login_valid - log_test_header:14 - ======================================================================
+
+2026-04-08 22:57:09 [    INFO] test_case_02_login_valid - test_case_02_login_valid:36 - Scenario 1 passed
+2026-04-08 22:57:10 [    INFO] test_case_02_login_valid - test_case_02_login_valid:50 - Scenario 2 passed
+2026-04-08 22:57:10 [    INFO] test_case_02_login_valid - test_case_02_login_valid:62 - Email: *****************
+2026-04-08 22:57:10 [    INFO] test_case_02_login_valid - test_case_02_login_valid:63 - Password: *********
+2026-04-08 22:57:11 [    INFO] test_case_02_login_valid - test_case_02_login_valid:65 - Scenario 3 passed
+2026-04-08 22:57:11 [    INFO] test_case_02_login_valid - test_case_02_login_valid:75 - Scenario 4 completed during login() method call
+2026-04-08 22:57:11 [    INFO] test_case_02_login_valid - test_case_02_login_valid:83 - Scenario 5 passed

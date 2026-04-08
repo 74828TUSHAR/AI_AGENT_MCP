@@ -1,0 +1,10 @@
+.git
+.pytest_cache
+__pycache__
+allure-results
+allure-report
+logs
+screenshots
+video
+test-results.xml
+playwright

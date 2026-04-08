@@ -1,0 +1,10 @@
+2026-04-08 23:34:33 [    INFO] UI.nightly.regression.test_api_case_02 - log_test_header:9 - 
+======================================================================
+2026-04-08 23:34:33 [    INFO] UI.nightly.regression.test_api_case_02 - log_test_header:10 - TEST: test_api_case_02_post_all_products_list_not_supported
+2026-04-08 23:34:33 [    INFO] UI.nightly.regression.test_api_case_02 - log_test_header:11 - Scenarios:
+2026-04-08 23:34:33 [    INFO] UI.nightly.regression.test_api_case_02 - log_test_header:13 -   1 - Send POST request to products list API and verify method not supported response
+2026-04-08 23:34:33 [    INFO] UI.nightly.regression.test_api_case_02 - log_test_header:14 - ======================================================================
+
+2026-04-08 23:34:34 [    INFO] UI.nightly.regression.test_api_case_02 - assert_api_field_equal:41 - API ASSERTION PASSED | field=response_code | expected=405 | actual=405
+2026-04-08 23:34:34 [    INFO] UI.nightly.regression.test_api_case_02 - assert_api_field_equal:41 - API ASSERTION PASSED | field=message | expected=This request method is not supported. | actual=This request method is not supported.
+2026-04-08 23:34:34 [    INFO] UI.nightly.regression.test_api_case_02 - run_api_scenario:8 - Scenario 1 passed

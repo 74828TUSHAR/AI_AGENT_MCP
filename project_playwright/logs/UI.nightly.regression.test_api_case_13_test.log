@@ -1,0 +1,32 @@
+2026-04-08 23:34:57 [    INFO] UI.nightly.regression.test_api_case_13 - log_test_header:9 - 
+======================================================================
+2026-04-08 23:34:57 [    INFO] UI.nightly.regression.test_api_case_13 - log_test_header:10 - TEST: test_api_case_13_update_account
+2026-04-08 23:34:57 [    INFO] UI.nightly.regression.test_api_case_13 - log_test_header:11 - Scenarios:
+2026-04-08 23:34:57 [    INFO] UI.nightly.regression.test_api_case_13 - log_test_header:13 -   1 - Create a new account for update validation
+2026-04-08 23:34:57 [    INFO] UI.nightly.regression.test_api_case_13 - log_test_header:13 -   2 - Update account and verify successful response
+2026-04-08 23:34:57 [    INFO] UI.nightly.regression.test_api_case_13 - log_test_header:13 -   3 - Delete updated account as cleanup
+2026-04-08 23:34:57 [    INFO] UI.nightly.regression.test_api_case_13 - log_test_header:14 - ======================================================================
+
+2026-04-08 23:34:58 [    INFO] UI.nightly.regression.test_api_case_13 - assert_api_field_equal:41 - API ASSERTION PASSED | field=create_response_code | expected=201 | actual=201
+2026-04-08 23:34:58 [    INFO] UI.nightly.regression.test_api_case_13 - run_api_scenario:8 - Scenario 1 passed
+2026-04-08 23:34:58 [    INFO] UI.nightly.regression.test_api_case_13 - assert_api_field_equal:41 - API ASSERTION PASSED | field=response_code | expected=200 | actual=200
+2026-04-08 23:34:58 [    INFO] UI.nightly.regression.test_api_case_13 - assert_api_field_equal:41 - API ASSERTION PASSED | field=message | expected=User updated! | actual=User updated!
+2026-04-08 23:34:58 [    INFO] UI.nightly.regression.test_api_case_13 - run_api_scenario:8 - Scenario 2 passed
+2026-04-08 23:34:59 [    INFO] UI.nightly.regression.test_api_case_13 - assert_api_field_equal:41 - API ASSERTION PASSED | field=cleanup_response_code | expected=200 | actual=200
+2026-04-08 23:34:59 [    INFO] UI.nightly.regression.test_api_case_13 - run_api_scenario:8 - Scenario 3 passed
+2026-04-08 23:35:44 [    INFO] UI.nightly.regression.test_api_case_13 - log_test_header:9 - 
+======================================================================
+2026-04-08 23:35:44 [    INFO] UI.nightly.regression.test_api_case_13 - log_test_header:10 - TEST: test_api_case_13_update_account
+2026-04-08 23:35:44 [    INFO] UI.nightly.regression.test_api_case_13 - log_test_header:11 - Scenarios:
+2026-04-08 23:35:44 [    INFO] UI.nightly.regression.test_api_case_13 - log_test_header:13 -   1 - Create a new account for update validation
+2026-04-08 23:35:44 [    INFO] UI.nightly.regression.test_api_case_13 - log_test_header:13 -   2 - Update account and verify successful response
+2026-04-08 23:35:44 [    INFO] UI.nightly.regression.test_api_case_13 - log_test_header:13 -   3 - Delete updated account as cleanup
+2026-04-08 23:35:44 [    INFO] UI.nightly.regression.test_api_case_13 - log_test_header:14 - ======================================================================
+
+2026-04-08 23:35:45 [    INFO] UI.nightly.regression.test_api_case_13 - assert_api_field_equal:41 - API ASSERTION PASSED | field=create_response_code | expected=201 | actual=201
+2026-04-08 23:35:45 [    INFO] UI.nightly.regression.test_api_case_13 - run_api_scenario:8 - Scenario 1 passed
+2026-04-08 23:35:46 [    INFO] UI.nightly.regression.test_api_case_13 - assert_api_field_equal:41 - API ASSERTION PASSED | field=response_code | expected=200 | actual=200
+2026-04-08 23:35:46 [    INFO] UI.nightly.regression.test_api_case_13 - assert_api_field_equal:41 - API ASSERTION PASSED | field=message | expected=User updated! | actual=User updated!
+2026-04-08 23:35:46 [    INFO] UI.nightly.regression.test_api_case_13 - run_api_scenario:8 - Scenario 2 passed
+2026-04-08 23:35:46 [    INFO] UI.nightly.regression.test_api_case_13 - assert_api_field_equal:41 - API ASSERTION PASSED | field=cleanup_response_code | expected=200 | actual=200
+2026-04-08 23:35:46 [    INFO] UI.nightly.regression.test_api_case_13 - run_api_scenario:8 - Scenario 3 passed

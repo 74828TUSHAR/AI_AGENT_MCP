@@ -1,0 +1,14 @@
+{
+  "method": "POST",
+  "endpoint": "/api/productsList",
+  "url": "https://automationexercise.com/api/productsList",
+  "http_status": 200,
+  "response_code": 405,
+  "message": "This request method is not supported.",
+  "duration_ms": 1132,
+  "body_json": {
+    "responseCode": 405,
+    "message": "This request method is not supported."
+  },
+  "body_text": "{\"responseCode\": 405, \"message\": \"This request method is not supported.\"}"
+}

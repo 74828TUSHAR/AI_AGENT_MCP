@@ -1,0 +1,2 @@
+2026-04-08 23:35:55,811 | INFO | AutomationExerciseApiClient | API REQUEST | method=GET | endpoint=/api/brandsList | params=None | form=None | headers=None
+2026-04-08 23:35:56,353 | INFO | AutomationExerciseApiClient | API RESPONSE | method=GET | endpoint=/api/brandsList | http_status=200 | response_code=200 | message=None | duration_ms=532

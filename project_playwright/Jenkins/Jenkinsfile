@@ -1,0 +1,76 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = 'playwright-framework-tests'
+        CONTAINER_NAME = 'playwright-framework-runner'
+        HEADLESS = 'true'
+        ENV = 'qa'
+    }
+
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Clean Old Artifacts') {
+            steps {
+                powershell '''
+                    $paths = @('allure-results', 'logs', 'screenshots', 'video', 'test-results.xml')
+                    foreach ($path in $paths) {
+                        if (Test-Path $path) {
+                            Remove-Item -LiteralPath $path -Recurse -Force
+                        }
+                    }
+                '''
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                powershell '''
+                    docker build -f Docker/Dockerfile -t $env:IMAGE_NAME .
+                '''
+            }
+        }
+
+        stage('Run Test Suite') {
+            steps {
+                powershell '''
+                    docker rm -f $env:CONTAINER_NAME 2>$null
+                    docker run --name $env:CONTAINER_NAME `
+                      -e HEADLESS=$env:HEADLESS `
+                      -e ENV=$env:ENV `
+                      -v "${PWD}\\allure-results:/app/allure-results" `
+                      -v "${PWD}\\logs:/app/logs" `
+                      -v "${PWD}\\screenshots:/app/screenshots" `
+                      -v "${PWD}\\video:/app/video" `
+                      $env:IMAGE_NAME
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            powershell '''
+                if (docker ps -a --format "{{.Names}}" | Select-String -Pattern "^$env:CONTAINER_NAME$") {
+                    docker cp "$env:CONTAINER_NAME:/app/test-results.xml" ".\\test-results.xml" 2>$null
+                }
+            '''
+            junit testResults: 'test-results.xml', allowEmptyResults: true
+            archiveArtifacts artifacts: 'allure-results/**, logs/**, screenshots/**, video/**, test-results.xml', allowEmptyArchive: true
+            powershell 'docker rm -f $env:CONTAINER_NAME 2>$null'
+        }
+        cleanup {
+            cleanWs()
+        }
+    }
+}

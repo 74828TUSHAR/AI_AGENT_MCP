@@ -1,0 +1,14 @@
+{
+  "method": "PUT",
+  "endpoint": "/api/updateAccount",
+  "url": "https://automationexercise.com/api/updateAccount",
+  "http_status": 200,
+  "response_code": 200,
+  "message": "User updated!",
+  "duration_ms": 503,
+  "body_json": {
+    "responseCode": 200,
+    "message": "User updated!"
+  },
+  "body_text": "{\"responseCode\": 200, \"message\": \"User updated!\"}"
+}

@@ -1,0 +1,31 @@
+{
+  "method": "GET",
+  "endpoint": "/api/getUserDetailByEmail",
+  "url": "https://automationexercise.com/api/getUserDetailByEmail?email=api_user_20260408233459884162%40mail.com",
+  "http_status": 200,
+  "response_code": 200,
+  "message": null,
+  "duration_ms": 335,
+  "body_json": {
+    "responseCode": 200,
+    "user": {
+      "id": 1560590,
+      "name": "API User",
+      "email": "api_user_20260408233459884162@mail.com",
+      "title": "Mr",
+      "birth_day": "10",
+      "birth_month": "5",
+      "birth_year": "1995",
+      "first_name": "API",
+      "last_name": "User",
+      "company": "OpenAI",
+      "address1": "Street 1",
+      "address2": "Area 2",
+      "country": "India",
+      "state": "MH",
+      "city": "Mumbai",
+      "zipcode": "400001"
+    }
+  },
+  "body_text": "{\"responseCode\": 200, \"user\": {\"id\": 1560590, \"name\": \"API User\", \"email\": \"api_user_20260408233459884162@mail.com\", \"title\": \"Mr\", \"birth_day\": \"10\", \"birth_month\": \"5\", \"birth_year\": \"1995\", \"first_name\": \"API\", \"last_name\": \"User\", \"company\": \"OpenAI\", \"address1\": \"Street 1\", \"address2\": \"Area 2\", \"country\": \"India\", \"state\": \"MH\", \"city\": \"Mumbai\", \"zipcode\": \"400001\"}}"
+}

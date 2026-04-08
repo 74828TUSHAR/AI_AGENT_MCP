@@ -1,0 +1,14 @@
+{
+  "method": "POST",
+  "endpoint": "/api/createAccount",
+  "url": "https://automationexercise.com/api/createAccount",
+  "http_status": 200,
+  "response_code": 201,
+  "message": "User created!",
+  "duration_ms": 1086,
+  "body_json": {
+    "responseCode": 201,
+    "message": "User created!"
+  },
+  "body_text": "{\"responseCode\": 201, \"message\": \"User created!\"}"
+}

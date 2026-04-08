@@ -1,0 +1,16 @@
+2026-04-08 23:36:05 [    INFO] UI.nightly.regression.test_api_case_23 - log_test_header:9 - 
+======================================================================
+2026-04-08 23:36:05 [    INFO] UI.nightly.regression.test_api_case_23 - log_test_header:10 - TEST: test_api_case_23_created_user_can_verify_login
+2026-04-08 23:36:05 [    INFO] UI.nightly.regression.test_api_case_23 - log_test_header:11 - Scenarios:
+2026-04-08 23:36:05 [    INFO] UI.nightly.regression.test_api_case_23 - log_test_header:13 -   1 - Create a new account
+2026-04-08 23:36:05 [    INFO] UI.nightly.regression.test_api_case_23 - log_test_header:13 -   2 - Verify created user login through verify login API
+2026-04-08 23:36:05 [    INFO] UI.nightly.regression.test_api_case_23 - log_test_header:13 -   3 - Delete created account as cleanup
+2026-04-08 23:36:05 [    INFO] UI.nightly.regression.test_api_case_23 - log_test_header:14 - ======================================================================
+
+2026-04-08 23:36:06 [    INFO] UI.nightly.regression.test_api_case_23 - assert_api_field_equal:41 - API ASSERTION PASSED | field=create_response_code | expected=201 | actual=201
+2026-04-08 23:36:06 [    INFO] UI.nightly.regression.test_api_case_23 - run_api_scenario:8 - Scenario 1 passed
+2026-04-08 23:36:07 [    INFO] UI.nightly.regression.test_api_case_23 - assert_api_field_equal:41 - API ASSERTION PASSED | field=response_code | expected=200 | actual=200
+2026-04-08 23:36:07 [    INFO] UI.nightly.regression.test_api_case_23 - assert_api_field_equal:41 - API ASSERTION PASSED | field=message | expected=User exists! | actual=User exists!
+2026-04-08 23:36:07 [    INFO] UI.nightly.regression.test_api_case_23 - run_api_scenario:8 - Scenario 2 passed
+2026-04-08 23:36:07 [    INFO] UI.nightly.regression.test_api_case_23 - assert_api_field_equal:41 - API ASSERTION PASSED | field=cleanup_response_code | expected=200 | actual=200
+2026-04-08 23:36:07 [    INFO] UI.nightly.regression.test_api_case_23 - run_api_scenario:8 - Scenario 3 passed

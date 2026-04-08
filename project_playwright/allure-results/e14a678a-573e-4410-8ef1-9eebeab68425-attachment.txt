@@ -1,0 +1,12 @@
+INFO     UI.nightly.regression.test_api_case_02:test_case_helpers.py:9 
+======================================================================
+INFO     UI.nightly.regression.test_api_case_02:test_case_helpers.py:10 TEST: test_api_case_02_post_all_products_list_not_supported
+INFO     UI.nightly.regression.test_api_case_02:test_case_helpers.py:11 Scenarios:
+INFO     UI.nightly.regression.test_api_case_02:test_case_helpers.py:13   1 - Send POST request to products list API and verify method not supported response
+INFO     UI.nightly.regression.test_api_case_02:test_case_helpers.py:14 ======================================================================
+
+INFO     AutomationExerciseApiClient:api_client.py:80 API REQUEST | method=POST | endpoint=/api/productsList | params=None | form=None | headers=None
+INFO     AutomationExerciseApiClient:api_client.py:90 API RESPONSE | method=POST | endpoint=/api/productsList | http_status=200 | response_code=405 | message=This request method is not supported. | duration_ms=1132
+INFO     UI.nightly.regression.test_api_case_02:api_assertions.py:41 API ASSERTION PASSED | field=response_code | expected=405 | actual=405
+INFO     UI.nightly.regression.test_api_case_02:api_assertions.py:41 API ASSERTION PASSED | field=message | expected=This request method is not supported. | actual=This request method is not supported.
+INFO     UI.nightly.regression.test_api_case_02:api_test_runner.py:8 Scenario 1 passed

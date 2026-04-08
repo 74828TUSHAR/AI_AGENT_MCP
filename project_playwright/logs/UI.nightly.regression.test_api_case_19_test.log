@@ -1,0 +1,10 @@
+2026-04-08 23:35:57 [    INFO] UI.nightly.regression.test_api_case_19 - log_test_header:9 - 
+======================================================================
+2026-04-08 23:35:57 [    INFO] UI.nightly.regression.test_api_case_19 - log_test_header:10 - TEST: test_api_case_19_validate_brand_item_fields
+2026-04-08 23:35:57 [    INFO] UI.nightly.regression.test_api_case_19 - log_test_header:11 - Scenarios:
+2026-04-08 23:35:57 [    INFO] UI.nightly.regression.test_api_case_19 - log_test_header:13 -   1 - Verify first brand item contains required fields
+2026-04-08 23:35:57 [    INFO] UI.nightly.regression.test_api_case_19 - log_test_header:14 - ======================================================================
+
+2026-04-08 23:35:58 [    INFO] UI.nightly.regression.test_api_case_19 - assert_api_truthy:67 - API ASSERTION PASSED | field=first_brand_id | actual=True
+2026-04-08 23:35:58 [    INFO] UI.nightly.regression.test_api_case_19 - assert_api_truthy:67 - API ASSERTION PASSED | field=first_brand_brand | actual=True
+2026-04-08 23:35:58 [    INFO] UI.nightly.regression.test_api_case_19 - run_api_scenario:8 - Scenario 1 passed
