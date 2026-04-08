@@ -1,2 +1,0 @@
-2026-04-08 23:35:33,268 | INFO | AutomationExerciseApiClient | API REQUEST | method=POST | endpoint=/api/verifyLogin | params=None | form={'password': 'admin@123'} | headers=None
-2026-04-08 23:35:34,435 | INFO | AutomationExerciseApiClient | API RESPONSE | method=POST | endpoint=/api/verifyLogin | http_status=200 | response_code=400 | message=Bad request, email or password parameter is missing in POST request. | duration_ms=1161

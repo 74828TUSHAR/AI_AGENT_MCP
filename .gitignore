@@ -1,0 +1,5 @@
+project_playwright/allure-results/
+project_playwright/logs/
+project_playwright/test-results.xml
+project_playwright/**/__pycache__/
+project_playwright/**/*.pyc

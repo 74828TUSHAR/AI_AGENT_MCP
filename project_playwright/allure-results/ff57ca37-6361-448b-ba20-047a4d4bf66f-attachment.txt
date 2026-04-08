@@ -1,2 +1,0 @@
-2026-04-08 23:35:29,118 | INFO | AutomationExerciseApiClient | API REQUEST | method=POST | endpoint=/api/searchProduct | params=None | form=None | headers=None
-2026-04-08 23:35:30,219 | INFO | AutomationExerciseApiClient | API RESPONSE | method=POST | endpoint=/api/searchProduct | http_status=200 | response_code=400 | message=Bad request, search_product parameter is missing in POST request. | duration_ms=1095

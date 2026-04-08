@@ -1,9 +1,0 @@
-2026-04-08 23:36:01 [    INFO] UI.nightly.regression.test_api_case_21 - log_test_header:9 - 
-======================================================================
-2026-04-08 23:36:01 [    INFO] UI.nightly.regression.test_api_case_21 - log_test_header:10 - TEST: test_api_case_21_validate_search_results_non_empty
-2026-04-08 23:36:01 [    INFO] UI.nightly.regression.test_api_case_21 - log_test_header:11 - Scenarios:
-2026-04-08 23:36:01 [    INFO] UI.nightly.regression.test_api_case_21 - log_test_header:13 -   1 - Verify valid search term returns at least one product
-2026-04-08 23:36:01 [    INFO] UI.nightly.regression.test_api_case_21 - log_test_header:14 - ======================================================================
-
-2026-04-08 23:36:02 [    INFO] UI.nightly.regression.test_api_case_21 - assert_api_truthy:67 - API ASSERTION PASSED | field=non_empty_search_results | actual=True
-2026-04-08 23:36:02 [    INFO] UI.nightly.regression.test_api_case_21 - run_api_scenario:8 - Scenario 1 passed

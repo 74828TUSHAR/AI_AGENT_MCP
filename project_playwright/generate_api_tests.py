@@ -59,9 +59,9 @@ def simple_body(assertions):
 
 
 def main():
-    base = Path("tests") / "UI" / "nightly" / "regression"
+    base = Path("tests") / "API" / "nightly" / "regression"
     base.mkdir(parents=True, exist_ok=True)
-    for pkg in [Path("tests") / "UI", Path("tests") / "UI" / "nightly", base]:
+    for pkg in [Path("tests") / "API", Path("tests") / "API" / "nightly", base]:
         (pkg / "__init__.py").write_text("", encoding="utf-8")
 
     filenames = {

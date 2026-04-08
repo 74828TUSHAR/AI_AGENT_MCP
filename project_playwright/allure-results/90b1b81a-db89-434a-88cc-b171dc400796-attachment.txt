@@ -1,2 +1,0 @@
-2026-04-08 23:35:31,185 | INFO | AutomationExerciseApiClient | API REQUEST | method=POST | endpoint=/api/verifyLogin | params=None | form={'email': 'adminnn@gmail.com', 'password': 'admin@123'} | headers=None
-2026-04-08 23:35:32,297 | INFO | AutomationExerciseApiClient | API RESPONSE | method=POST | endpoint=/api/verifyLogin | http_status=200 | response_code=200 | message=User exists! | duration_ms=1106

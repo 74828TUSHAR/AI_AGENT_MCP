@@ -1,2 +1,0 @@
-2026-04-08 23:35:35,465 | INFO | AutomationExerciseApiClient | API REQUEST | method=DELETE | endpoint=/api/verifyLogin | params=None | form=None | headers=None
-2026-04-08 23:35:36,571 | INFO | AutomationExerciseApiClient | API RESPONSE | method=DELETE | endpoint=/api/verifyLogin | http_status=200 | response_code=405 | message=This request method is not supported. | duration_ms=1099
