@@ -1,5 +1,10 @@
 project_playwright/allure-results/
 project_playwright/logs/
 project_playwright/test-results.xml
+project_playwright/reports/
+project_playwright/screenshots/
+project_playwright/downloads/
+project_playwright/video/
+project_playwright/ci-artifacts/
 project_playwright/**/__pycache__/
 project_playwright/**/*.pyc

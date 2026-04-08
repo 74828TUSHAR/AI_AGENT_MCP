@@ -212,11 +212,11 @@ def pytest_runtest_setup(item):
     Creates separate log files for each test module
     Example: test_login_authentication.py -> logs/login_authentication_test.log
     """
-    # Extract test module name (e.g., "test_login_authentication" -> "login_authentication")
-    test_module_name = item.module.__name__.replace("tests.test_", "")
+    # Extract a stable module name from the file name so nested folders stay readable.
+    test_module_name = Path(str(item.fspath)).stem
 
     # Create log file path
-    logs_dir = "logs"
+    logs_dir = os.getenv("LOG_DIR", "logs")
     if not os.path.exists(logs_dir):
         os.makedirs(logs_dir)
 
@@ -249,6 +249,19 @@ def pytest_runtest_setup(item):
     console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(formatter)
     logger.addHandler(console_handler)
+
+
+def pytest_collection_modifyitems(items):
+    """
+    Auto-tag collected tests based on their folder so Jenkins can run UI and API
+    suites separately without editing every individual test file.
+    """
+    for item in items:
+        test_path = Path(str(item.fspath)).as_posix()
+        if "/tests/UI/" in test_path:
+            item.add_marker(pytest.mark.ui)
+        elif "/tests/API/" in test_path:
+            item.add_marker(pytest.mark.api)
 
 
 @pytest.hookimpl(hookwrapper=True)

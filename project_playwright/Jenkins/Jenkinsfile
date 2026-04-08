@@ -1,16 +1,27 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = 'playwright-framework-tests'
-        CONTAINER_NAME = 'playwright-framework-runner'
-        HEADLESS = 'true'
-        ENV = 'qa'
-    }
-
     options {
         timestamps()
         disableConcurrentBuilds()
+    }
+
+    parameters {
+        choice(
+            name: 'SUITE',
+            choices: ['UI', 'API'],
+            description: 'Choose which test suite Jenkins should run.'
+        )
+        choice(
+            name: 'ENV',
+            choices: ['qa'],
+            description: 'Target environment loaded from config/env.yaml.'
+        )
+        booleanParam(
+            name: 'HEADLESS',
+            defaultValue: true,
+            description: 'Run Playwright in headless mode.'
+        )
     }
 
     stages {
@@ -20,54 +31,104 @@ pipeline {
             }
         }
 
-        stage('Clean Old Artifacts') {
+        stage('Initialize') {
             steps {
-                powershell '''
-                    $paths = @('allure-results', 'logs', 'screenshots', 'video', 'test-results.xml')
-                    foreach ($path in $paths) {
-                        if (Test-Path $path) {
-                            Remove-Item -LiteralPath $path -Recurse -Force
-                        }
+                dir('project_playwright') {
+                    script {
+                        env.SUITE_SLUG = params.SUITE.toLowerCase()
+                        env.SUITE_PATH = params.SUITE == 'UI' ? 'tests/UI' : 'tests/API'
+                        env.SUITE_MARKER = params.SUITE == 'UI' ? 'ui' : 'api'
+                        env.IMAGE_NAME = "playwright-framework-${env.SUITE_SLUG}"
+                        env.CONTAINER_NAME = "playwright-framework-${env.SUITE_SLUG}-${env.BUILD_NUMBER}"
+                        env.ARTIFACT_ROOT = "ci-artifacts/${env.SUITE_SLUG}/${env.BUILD_NUMBER}"
+                        env.LOGS_DIR = "${env.ARTIFACT_ROOT}/logs"
+                        env.ALLURE_DIR = "${env.ARTIFACT_ROOT}/allure-results"
+                        env.SCREENSHOTS_DIR = "${env.ARTIFACT_ROOT}/screenshots"
+                        env.VIDEO_DIR = "${env.ARTIFACT_ROOT}/video"
+                        env.DOWNLOADS_DIR = "${env.ARTIFACT_ROOT}/downloads"
+                        env.RESULTS_XML = "${env.ARTIFACT_ROOT}/test-results.xml"
                     }
-                '''
+                }
+            }
+        }
+
+        stage('Clean Suite Artifacts') {
+            steps {
+                dir('project_playwright') {
+                    powershell '''
+                        if (Test-Path $env:ARTIFACT_ROOT) {
+                            Remove-Item -LiteralPath $env:ARTIFACT_ROOT -Recurse -Force
+                        }
+
+                        $paths = @(
+                            $env:LOGS_DIR,
+                            $env:ALLURE_DIR,
+                            $env:SCREENSHOTS_DIR,
+                            $env:VIDEO_DIR,
+                            $env:DOWNLOADS_DIR
+                        )
+
+                        foreach ($path in $paths) {
+                            New-Item -ItemType Directory -Force -Path $path | Out-Null
+                        }
+                    '''
+                }
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                powershell '''
-                    docker build -f Docker/Dockerfile -t $env:IMAGE_NAME .
-                '''
+                dir('project_playwright') {
+                    powershell '''
+                        docker build -f Docker/Dockerfile -t $env:IMAGE_NAME .
+                    '''
+                }
             }
         }
 
-        stage('Run Test Suite') {
+        stage('Run Suite') {
             steps {
-                powershell '''
-                    docker rm -f $env:CONTAINER_NAME 2>$null
-                    docker run --name $env:CONTAINER_NAME `
-                      -e HEADLESS=$env:HEADLESS `
-                      -e ENV=$env:ENV `
-                      -v "${PWD}\\allure-results:/app/allure-results" `
-                      -v "${PWD}\\logs:/app/logs" `
-                      -v "${PWD}\\screenshots:/app/screenshots" `
-                      -v "${PWD}\\video:/app/video" `
-                      $env:IMAGE_NAME
-                '''
+                dir('project_playwright') {
+                    powershell '''
+                        docker rm -f $env:CONTAINER_NAME 2>$null
+
+                        $volumeLogs = "$(Resolve-Path $env:LOGS_DIR):/app/logs"
+                        $volumeAllure = "$(Resolve-Path $env:ALLURE_DIR):/app/allure-results"
+                        $volumeScreenshots = "$(Resolve-Path $env:SCREENSHOTS_DIR):/app/screenshots"
+                        $volumeVideo = "$(Resolve-Path $env:VIDEO_DIR):/app/video"
+                        $volumeDownloads = "$(Resolve-Path $env:DOWNLOADS_DIR):/app/downloads"
+
+                        docker run --name $env:CONTAINER_NAME `
+                          -e HEADLESS=$env:HEADLESS `
+                          -e ENV=$env:ENV `
+                          -e LOG_DIR=/app/logs `
+                          -v $volumeLogs `
+                          -v $volumeAllure `
+                          -v $volumeScreenshots `
+                          -v $volumeVideo `
+                          -v $volumeDownloads `
+                          $env:IMAGE_NAME `
+                          python -m pytest $env:SUITE_PATH -m $env:SUITE_MARKER
+                    '''
+                }
             }
         }
     }
 
     post {
         always {
-            powershell '''
-                if (docker ps -a --format "{{.Names}}" | Select-String -Pattern "^$env:CONTAINER_NAME$") {
-                    docker cp "$env:CONTAINER_NAME:/app/test-results.xml" ".\\test-results.xml" 2>$null
-                }
-            '''
-            junit testResults: 'test-results.xml', allowEmptyResults: true
-            archiveArtifacts artifacts: 'allure-results/**, logs/**, screenshots/**, video/**, test-results.xml', allowEmptyArchive: true
-            powershell 'docker rm -f $env:CONTAINER_NAME 2>$null'
+            dir('project_playwright') {
+                powershell '''
+                    if (docker ps -a --format "{{.Names}}" | Select-String -Pattern "^$env:CONTAINER_NAME$") {
+                        docker cp "$env:CONTAINER_NAME:/app/test-results.xml" "$env:RESULTS_XML" 2>$null
+                    }
+                '''
+
+                junit testResults: "${env.RESULTS_XML}", allowEmptyResults: true
+                archiveArtifacts artifacts: "${env.ARTIFACT_ROOT}/**", allowEmptyArchive: true
+
+                powershell 'docker rm -f $env:CONTAINER_NAME 2>$null'
+            }
         }
         cleanup {
             cleanWs()

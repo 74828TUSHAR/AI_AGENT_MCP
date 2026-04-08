@@ -5,28 +5,43 @@ Jenkins setup for this repository
    - Git
    - JUnit
    - Workspace Cleanup
-   - Allure Jenkins Plugin (optional but recommended)
+   - Allure Jenkins Plugin, if you want to publish Allure reports from Jenkins
 
 2. Make sure the Jenkins agent machine has:
    - Docker Desktop running
    - access to this Git repository
 
-3. Create a new Jenkins job:
-   - Item type: Pipeline
+3. Create two separate Jenkins jobs from the same repository:
+   - UI job
+   - API job
+
+4. In both jobs, use:
    - Definition: Pipeline script from SCM
    - SCM: Git
-   - Script Path: Jenkins/Jenkinsfile
+   - Script Path: `project_playwright/Jenkins/Jenkinsfile`
 
-4. If Jenkins runs on Windows, use a Windows agent with Docker Desktop.
+5. Set the job parameters:
+   - UI job: `SUITE = UI`
+   - API job: `SUITE = API`
+   - `ENV = qa`
+   - `HEADLESS = true`
 
-5. The pipeline will:
-   - checkout code
-   - build the Docker image from Docker/Dockerfile
-   - run all tests headlessly
-   - publish test-results.xml
-   - archive allure-results, logs, screenshots, and failed-test videos
+6. What the pipeline does:
+   - checks out the code
+   - builds a Playwright Docker image
+   - runs only the selected suite
+   - archives suite-specific logs, screenshots, downloads, videos, and Allure output
+   - publishes a suite-specific `test-results.xml`
 
-6. To view Allure inside Jenkins:
-   - install the Allure Jenkins plugin
-   - configure the Allure command line tool in Jenkins global tools
-   - add a post-build Allure step if you want HTML report publishing from archived allure-results
+7. Where the outputs go:
+   - UI artifacts: `project_playwright/ci-artifacts/ui/<build-number>/`
+   - API artifacts: `project_playwright/ci-artifacts/api/<build-number>/`
+
+8. Important test selection rules:
+   - UI tests are selected from `tests/UI`
+   - API tests are selected from `tests/API`
+   - the suite markers are added automatically by `conftest.py`
+
+9. To publish Allure:
+   - install and configure the Allure Jenkins plugin
+   - point it at the archived `allure-results` folder from the selected suite
