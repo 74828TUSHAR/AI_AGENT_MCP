@@ -1,5 +1,11 @@
 {
+  "python.defaultInterpreterPath": "${workspaceFolder}/playwright/Scripts/python.exe",
   "python.testing.pytestArgs": ["playwright"],
   "python.testing.unittestEnabled": false,
-  "python.testing.pytestEnabled": true
+  "python.testing.pytestEnabled": true,
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "[python]": {
+    "editor.formatOnSave": false
+  }
 }

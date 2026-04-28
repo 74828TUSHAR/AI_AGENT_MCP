@@ -138,3 +138,6 @@ async def test_case_01_register_user(page, env, test_record):
             raise AssertionError(f"Scenario 6 failed: {e}") from e
 
 
+    
+
+
