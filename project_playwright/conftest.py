@@ -10,6 +10,8 @@ from pathlib import Path
 from playwright.async_api import async_playwright
 from utils.data_loader import load_json
 from core.api_client import AutomationExerciseApiClient
+from config.array_config import ArrayConfigManager, reset_array_manager
+from utils.logger import set_execution_context, get_logger
 
 
 def _get_int_env(name, default_value):
@@ -154,6 +156,27 @@ def env_name():
 
 
 @pytest.fixture(scope="session")
+def array_config_manager(env_name):
+    """
+    Enterprise-grade array/server configuration manager.
+    Provides dynamic array selection and configuration for multi-environment testing.
+    """
+    manager = ArrayConfigManager(environment=env_name)
+    manager.log_environment_info()
+    yield manager
+    reset_array_manager()
+
+
+@pytest.fixture(scope="session")
+def array_info(array_config_manager):
+    """
+    Get current array/server information.
+    Returns dictionary with array details (name, ip, port, protocol, connection_string).
+    """
+    return array_config_manager.get_selected_array()
+
+
+@pytest.fixture(scope="session")
 def env(env_name):
     with open("config/env.yaml", "r") as f:
         config = yaml.safe_load(f)
@@ -208,12 +231,19 @@ def test_record(request, test_data):
 
 def pytest_runtest_setup(item):
     """
-    Configure test-specific logging before each test
-    Creates separate log files for each test module
+    Configure test-specific logging before each test.
+    
+    Features:
+    - Creates separate log files for each test module
+    - Sets execution context (environment, array, test name)
+    - Enables comprehensive test tracing and debugging
+    - Logs test start with environment and array information
+    
     Example: test_login_authentication.py -> logs/login_authentication_test.log
     """
-    # Extract a stable module name from the file name so nested folders stay readable.
+    # Extract a stable module name from the file name
     test_module_name = Path(str(item.fspath)).stem
+    test_name = item.name
 
     # Create log file path
     logs_dir = os.getenv("LOG_DIR", "logs")
@@ -249,6 +279,17 @@ def pytest_runtest_setup(item):
     console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(formatter)
     logger.addHandler(console_handler)
+    
+    # =========================================================================
+    # SET EXECUTION CONTEXT FOR LOGGING (Enterprise Feature)
+    # =========================================================================
+    env_name = os.getenv("ENV", "qa")
+    array_name = os.getenv("ARRAY", "default")
+    set_execution_context(environment=env_name, array=array_name, test_name=test_name)
+    
+    # Log test start
+    test_logger = get_logger(f"{item.module.__name__}[TEST]")
+    test_logger.info(f"TEST START | Test: {test_name} | File: {test_module_name}")
 
 
 def pytest_collection_modifyitems(items):
@@ -269,3 +310,13 @@ def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
     setattr(item, f"rep_{report.when}", report)
+    
+    # Log test result (Enterprise Feature)
+    if call.when == "call":
+        test_logger = get_logger(f"{item.module.__name__}[TEST]")
+        if report.passed:
+            test_logger.info(f"TEST PASSED | Test: {item.name}")
+        elif report.failed:
+            test_logger.error(f"TEST FAILED | Test: {item.name} | Error: {report.longrepr}")
+        elif report.skipped:
+            test_logger.warning(f"TEST SKIPPED | Test: {item.name}")
