@@ -8,3 +8,7 @@ project_playwright/video/
 project_playwright/ci-artifacts/
 project_playwright/**/__pycache__/
 project_playwright/**/*.pyc
+.idea/
+.vscode/
+.pytest_cache/
+.github/agents/
