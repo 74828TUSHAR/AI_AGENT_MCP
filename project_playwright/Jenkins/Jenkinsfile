@@ -45,7 +45,33 @@ pipeline {
                         env.VIDEO_DIR = "${env.ARTIFACT_ROOT}/video"
                         env.DOWNLOADS_DIR = "${env.ARTIFACT_ROOT}/downloads"
                         env.RESULTS_XML = "${env.ARTIFACT_ROOT}/test-results.xml"
+                        env.PYTHON_CMD = ""
+                        env.PYTHON_ARGS = ""
                     }
+                }
+            }
+        }
+
+        stage('Resolve Python') {
+            steps {
+                dir('project_playwright') {
+                    powershell '''
+                        if (Get-Command py -ErrorAction SilentlyContinue) {
+                            $env:PYTHON_CMD = "py"
+                            $env:PYTHON_ARGS = "-3"
+                            Write-Host "Using Python launcher: py -3"
+                            exit 0
+                        }
+
+                        if (Get-Command python -ErrorAction SilentlyContinue) {
+                            $env:PYTHON_CMD = "python"
+                            $env:PYTHON_ARGS = ""
+                            Write-Host "Using Python command: python"
+                            exit 0
+                        }
+
+                        throw "Neither 'py' nor 'python' was found on the Jenkins agent. Install Python 3 and ensure it is available to the Jenkins service account."
+                    '''
                 }
             }
         }
@@ -93,10 +119,17 @@ pipeline {
             steps {
                 dir('project_playwright') {
                     powershell '''
-                        python --version
-                        python -m pip install --upgrade pip
-                        python -m pip install -r requirements.txt
-                        python -m playwright install
+                        if ($env:PYTHON_ARGS) {
+                            & $env:PYTHON_CMD $env:PYTHON_ARGS --version
+                            & $env:PYTHON_CMD $env:PYTHON_ARGS -m pip install --upgrade pip
+                            & $env:PYTHON_CMD $env:PYTHON_ARGS -m pip install -r requirements.txt
+                            & $env:PYTHON_CMD $env:PYTHON_ARGS -m playwright install
+                        } else {
+                            & $env:PYTHON_CMD --version
+                            & $env:PYTHON_CMD -m pip install --upgrade pip
+                            & $env:PYTHON_CMD -m pip install -r requirements.txt
+                            & $env:PYTHON_CMD -m playwright install
+                        }
                     '''
                 }
             }
@@ -113,7 +146,11 @@ pipeline {
                         Write-Host "Environment: $($env:ENV)"
                         Write-Host "Headless: $($env:HEADLESS)"
 
-                        python -m pytest $env:SUITE_PATH -m $env:SUITE_MARKER -v --tb=short
+                        if ($env:PYTHON_ARGS) {
+                            & $env:PYTHON_CMD $env:PYTHON_ARGS -m pytest $env:SUITE_PATH -m $env:SUITE_MARKER -v --tb=short
+                        } else {
+                            & $env:PYTHON_CMD -m pytest $env:SUITE_PATH -m $env:SUITE_MARKER -v --tb=short
+                        }
                     '''
                 }
             }
