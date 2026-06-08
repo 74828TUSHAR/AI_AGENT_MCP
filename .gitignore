@@ -12,3 +12,4 @@ project_playwright/**/*.pyc
 .vscode/
 .pytest_cache/
 .github/agents/
+playwright/
