@@ -38,8 +38,6 @@ pipeline {
                         env.SUITE_SLUG = params.SUITE.toLowerCase()
                         env.SUITE_PATH = params.SUITE == 'UI' ? 'tests/UI' : 'tests/API'
                         env.SUITE_MARKER = params.SUITE == 'UI' ? 'ui' : 'api'
-                        env.IMAGE_NAME = "playwright-framework-${env.SUITE_SLUG}"
-                        env.CONTAINER_NAME = "playwright-framework-${env.SUITE_SLUG}-${env.BUILD_NUMBER}"
                         env.ARTIFACT_ROOT = "ci-artifacts/${env.SUITE_SLUG}/${env.BUILD_NUMBER}"
                         env.LOGS_DIR = "${env.ARTIFACT_ROOT}/logs"
                         env.ALLURE_DIR = "${env.ARTIFACT_ROOT}/allure-results"
@@ -60,6 +58,21 @@ pipeline {
                             Remove-Item -LiteralPath $env:ARTIFACT_ROOT -Recurse -Force
                         }
 
+                        $workspacePaths = @(
+                            "logs",
+                            "allure-results",
+                            "screenshots",
+                            "downloads",
+                            "video",
+                            "test-results.xml"
+                        )
+
+                        foreach ($path in $workspacePaths) {
+                            if (Test-Path $path) {
+                                Remove-Item -LiteralPath $path -Recurse -Force
+                            }
+                        }
+
                         $paths = @(
                             $env:LOGS_DIR,
                             $env:ALLURE_DIR,
@@ -76,11 +89,14 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Install Dependencies') {
             steps {
                 dir('project_playwright') {
                     powershell '''
-                        docker build -f Docker/Dockerfile -t $env:IMAGE_NAME .
+                        python --version
+                        python -m pip install --upgrade pip
+                        python -m pip install -r requirements.txt
+                        python -m playwright install
                     '''
                 }
             }
@@ -90,25 +106,41 @@ pipeline {
             steps {
                 dir('project_playwright') {
                     powershell '''
-                        docker rm -f $env:CONTAINER_NAME 2>$null
+                        $env:LOG_DIR = "logs"
+                        $env:SCREENSHOT_DIR = "screenshots"
 
-                        $volumeLogs = "$(Resolve-Path $env:LOGS_DIR):/app/logs"
-                        $volumeAllure = "$(Resolve-Path $env:ALLURE_DIR):/app/allure-results"
-                        $volumeScreenshots = "$(Resolve-Path $env:SCREENSHOTS_DIR):/app/screenshots"
-                        $volumeVideo = "$(Resolve-Path $env:VIDEO_DIR):/app/video"
-                        $volumeDownloads = "$(Resolve-Path $env:DOWNLOADS_DIR):/app/downloads"
+                        Write-Host "Running suite: $($env:SUITE)"
+                        Write-Host "Environment: $($env:ENV)"
+                        Write-Host "Headless: $($env:HEADLESS)"
 
-                        docker run --name $env:CONTAINER_NAME `
-                          -e HEADLESS=$env:HEADLESS `
-                          -e ENV=$env:ENV `
-                          -e LOG_DIR=/app/logs `
-                          -v $volumeLogs `
-                          -v $volumeAllure `
-                          -v $volumeScreenshots `
-                          -v $volumeVideo `
-                          -v $volumeDownloads `
-                          $env:IMAGE_NAME `
-                          python -m pytest $env:SUITE_PATH -m $env:SUITE_MARKER
+                        python -m pytest $env:SUITE_PATH -m $env:SUITE_MARKER -v --tb=short
+                    '''
+                }
+            }
+        }
+
+        stage('Collect Artifacts') {
+            steps {
+                dir('project_playwright') {
+                    powershell '''
+                        New-Item -ItemType Directory -Force -Path $env:ARTIFACT_ROOT | Out-Null
+                        $artifactPaths = @(
+                            @{ Source = "logs"; Target = $env:LOGS_DIR },
+                            @{ Source = "allure-results"; Target = $env:ALLURE_DIR },
+                            @{ Source = "screenshots"; Target = $env:SCREENSHOTS_DIR },
+                            @{ Source = "video"; Target = $env:VIDEO_DIR },
+                            @{ Source = "downloads"; Target = $env:DOWNLOADS_DIR }
+                        )
+
+                        foreach ($item in $artifactPaths) {
+                            if (Test-Path $item.Source) {
+                                Get-ChildItem -Path $item.Source -Force | Copy-Item -Destination $item.Target -Recurse -Force
+                            }
+                        }
+
+                        if (Test-Path "test-results.xml") {
+                            Copy-Item -Path "test-results.xml" -Destination $env:RESULTS_XML -Force
+                        }
                     '''
                 }
             }
@@ -118,16 +150,8 @@ pipeline {
     post {
         always {
             dir('project_playwright') {
-                powershell '''
-                    if (docker ps -a --format "{{.Names}}" | Select-String -Pattern "^$env:CONTAINER_NAME$") {
-                        docker cp "$env:CONTAINER_NAME:/app/test-results.xml" "$env:RESULTS_XML" 2>$null
-                    }
-                '''
-
                 junit testResults: "${env.RESULTS_XML}", allowEmptyResults: true
                 archiveArtifacts artifacts: "${env.ARTIFACT_ROOT}/**", allowEmptyArchive: true
-
-                powershell 'docker rm -f $env:CONTAINER_NAME 2>$null'
             }
         }
         cleanup {
