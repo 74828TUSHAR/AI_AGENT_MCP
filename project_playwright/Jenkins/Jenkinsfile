@@ -35,18 +35,19 @@ pipeline {
             steps {
                 dir('project_playwright') {
                     script {
-                        env.SUITE_SLUG = params.SUITE.toLowerCase()
-                        env.SUITE_PATH = params.SUITE == 'UI' ? 'tests/UI' : 'tests/API'
-                        env.SUITE_MARKER = params.SUITE == 'UI' ? 'ui' : 'api'
-                        env.ARTIFACT_ROOT = "ci-artifacts/${env.SUITE_SLUG}/${env.BUILD_NUMBER}"
-                        env.LOGS_DIR = "${env.ARTIFACT_ROOT}/logs"
-                        env.ALLURE_DIR = "${env.ARTIFACT_ROOT}/allure-results"
+                        env.SUITE_SLUG      = params.SUITE.toLowerCase()
+                        env.SUITE_PATH      = params.SUITE == 'UI' ? 'tests/UI' : 'tests/API'
+                        env.SUITE_MARKER    = params.SUITE == 'UI' ? 'ui' : 'api'
+                        env.ARTIFACT_ROOT   = "ci-artifacts/${env.SUITE_SLUG}/${env.BUILD_NUMBER}"
+                        env.LOGS_DIR        = "${env.ARTIFACT_ROOT}/logs"
+                        env.ALLURE_DIR      = "${env.ARTIFACT_ROOT}/allure-results"
+                        env.ALLURE_REPORT   = "${env.ARTIFACT_ROOT}/allure-report"
                         env.SCREENSHOTS_DIR = "${env.ARTIFACT_ROOT}/screenshots"
-                        env.VIDEO_DIR = "${env.ARTIFACT_ROOT}/video"
-                        env.DOWNLOADS_DIR = "${env.ARTIFACT_ROOT}/downloads"
-                        env.RESULTS_XML = "${env.ARTIFACT_ROOT}/test-results.xml"
+                        env.VIDEO_DIR       = "${env.ARTIFACT_ROOT}/video"
+                        env.DOWNLOADS_DIR   = "${env.ARTIFACT_ROOT}/downloads"
+                        env.RESULTS_XML     = "${env.ARTIFACT_ROOT}/test-results.xml"
                         // Absolute Python path so Jenkins service account can find it
-                        env.PYTHON_CMD = "C:\\Users\\TUSHAR\\AppData\\Local\\Programs\\Python\\Python311\\python.exe"
+                        env.PYTHON_CMD      = 'C:\\Users\\TUSHAR\\AppData\\Local\\Programs\\Python\\Python311\\python.exe'
                     }
                 }
             }
@@ -93,6 +94,7 @@ pipeline {
                         $paths = @(
                             $env:LOGS_DIR,
                             $env:ALLURE_DIR,
+                            $env:ALLURE_REPORT,
                             $env:SCREENSHOTS_DIR,
                             $env:VIDEO_DIR,
                             $env:DOWNLOADS_DIR
@@ -123,16 +125,19 @@ pipeline {
         stage('Run Suite') {
             steps {
                 dir('project_playwright') {
-                    powershell """
-                        \$env:LOG_DIR = "logs"
-                        \$env:SCREENSHOT_DIR = "screenshots"
+                    // Use catchError so post-steps always run even when tests fail
+                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                        powershell """
+                            \$env:LOG_DIR        = "logs"
+                            \$env:SCREENSHOT_DIR = "screenshots"
 
-                        Write-Host "Running suite: ${env.SUITE}"
-                        Write-Host "Environment: ${env.ENV}"
-                        Write-Host "Headless: ${env.HEADLESS}"
+                            Write-Host "Running suite: ${env.SUITE_SLUG}"
+                            Write-Host "Environment:   ${env.ENV}"
+                            Write-Host "Headless:      ${env.HEADLESS}"
 
-                        & "${env.PYTHON_CMD}" -m pytest ${env.SUITE_PATH} -m ${env.SUITE_MARKER} -v --tb=short
-                    """
+                            & "${env.PYTHON_CMD}" -m pytest ${env.SUITE_PATH} -m ${env.SUITE_MARKER} -v --tb=short
+                        """
+                    }
                 }
             }
         }
@@ -142,24 +147,45 @@ pipeline {
                 dir('project_playwright') {
                     powershell '''
                         New-Item -ItemType Directory -Force -Path $env:ARTIFACT_ROOT | Out-Null
+
                         $artifactPaths = @(
-                            @{ Source = "logs"; Target = $env:LOGS_DIR },
-                            @{ Source = "allure-results"; Target = $env:ALLURE_DIR },
-                            @{ Source = "screenshots"; Target = $env:SCREENSHOTS_DIR },
-                            @{ Source = "video"; Target = $env:VIDEO_DIR },
-                            @{ Source = "downloads"; Target = $env:DOWNLOADS_DIR }
+                            @{ Source = "logs";          Target = $env:LOGS_DIR        },
+                            @{ Source = "allure-results"; Target = $env:ALLURE_DIR     },
+                            @{ Source = "screenshots";   Target = $env:SCREENSHOTS_DIR },
+                            @{ Source = "video";         Target = $env:VIDEO_DIR       },
+                            @{ Source = "downloads";     Target = $env:DOWNLOADS_DIR   }
                         )
 
                         foreach ($item in $artifactPaths) {
                             if (Test-Path $item.Source) {
-                                Get-ChildItem -Path $item.Source -Force | Copy-Item -Destination $item.Target -Recurse -Force
+                                Get-ChildItem -Path $item.Source -Force |
+                                    Copy-Item -Destination $item.Target -Recurse -Force
                             }
                         }
 
                         if (Test-Path "test-results.xml") {
                             Copy-Item -Path "test-results.xml" -Destination $env:RESULTS_XML -Force
+                            Write-Host "Copied test-results.xml to $env:RESULTS_XML"
+                        } else {
+                            Write-Host "WARNING: test-results.xml not found in workspace"
                         }
                     '''
+                }
+            }
+        }
+
+        stage('Generate Allure Report') {
+            steps {
+                dir('project_playwright') {
+                    powershell """
+                        if (Test-Path "${env.ALLURE_DIR}") {
+                            Write-Host "Generating Allure report from ${env.ALLURE_DIR}"
+                            & allure generate "${env.ALLURE_DIR}" --clean -o "${env.ALLURE_REPORT}"
+                            Write-Host "Allure report generated at ${env.ALLURE_REPORT}"
+                        } else {
+                            Write-Host "WARNING: allure-results directory not found, skipping report generation"
+                        }
+                    """
                 }
             }
         }
@@ -168,7 +194,17 @@ pipeline {
     post {
         always {
             dir('project_playwright') {
+                // Publish JUnit test results
                 junit testResults: "${env.RESULTS_XML}", allowEmptyResults: true
+
+                // Publish Allure report via Allure Jenkins Plugin
+                allure([
+                    includeProperties: false,
+                    jdk: '',
+                    results: [[path: "${env.ALLURE_DIR}"]]
+                ])
+
+                // Archive all artifacts
                 archiveArtifacts artifacts: "${env.ARTIFACT_ROOT}/**", allowEmptyArchive: true
             }
         }

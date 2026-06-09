@@ -84,7 +84,7 @@ class BasePage:
     async def navigate(self, url: str, *, wait_until: str = "domcontentloaded"):
         self.logger.info("Navigating to url: %s", url)
         try:
-            await self.page.goto(url, wait_until=wait_until)
+            await self.page.goto(url, wait_until=wait_until, timeout=DEFAULT_TIMEOUT)
             self.logger.info("Successfully navigated to url: %s", url)
         except Exception as exc:
             self.logger.error("Failed navigating to url: %s | error=%s", url, exc)
