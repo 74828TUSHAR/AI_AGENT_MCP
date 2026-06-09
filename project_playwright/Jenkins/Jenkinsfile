@@ -22,7 +22,7 @@ pipeline {
             defaultValue: true,
             description: 'Run Playwright in headless mode.'
         )
-    )
+    }
 
     stages {
         stage('Checkout') {
@@ -45,7 +45,7 @@ pipeline {
                         env.VIDEO_DIR = "${env.ARTIFACT_ROOT}/video"
                         env.DOWNLOADS_DIR = "${env.ARTIFACT_ROOT}/downloads"
                         env.RESULTS_XML = "${env.ARTIFACT_ROOT}/test-results.xml"
-                        // Use absolute Python path so Jenkins service account can find it
+                        // Absolute Python path so Jenkins service account can find it
                         env.PYTHON_CMD = "C:\\Users\\TUSHAR\\AppData\\Local\\Programs\\Python\\Python311\\python.exe"
                     }
                 }
@@ -55,16 +55,14 @@ pipeline {
         stage('Resolve Python') {
             steps {
                 dir('project_playwright') {
-                    script {
-                        powershell """
-                            Write-Host "Verifying Python at: ${env.PYTHON_CMD}"
-                            & "${env.PYTHON_CMD}" --version
-                            if (\$LASTEXITCODE -ne 0) {
-                                throw "Python not found at ${env.PYTHON_CMD}"
-                            }
-                            Write-Host "Python resolved successfully."
-                        """
-                    }
+                    powershell """
+                        Write-Host "Verifying Python at: ${env.PYTHON_CMD}"
+                        & "${env.PYTHON_CMD}" --version
+                        if (\$LASTEXITCODE -ne 0) {
+                            throw "Python not found at ${env.PYTHON_CMD}"
+                        }
+                        Write-Host "Python resolved successfully."
+                    """
                 }
             }
         }
