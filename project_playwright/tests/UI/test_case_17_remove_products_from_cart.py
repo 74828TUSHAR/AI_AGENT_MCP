@@ -62,12 +62,12 @@ async def test_case_17_remove_products_from_cart(page, env, test_record):
     with allure.step("Scenario 3: Remove product and verify empty cart"):
         try:
             await cart_page.remove_first_product()
-            assert await cart_page.is_empty()
+            # INTENTIONAL FAILURE: cart should be empty after removal,
+            # but we assert it is NOT empty to force a failure
+            assert not await cart_page.is_empty(), "DEMO FAIL: Asserting cart is NOT empty after removal"
             logger.info("Scenario 3 passed")
         except Exception as e:
             line_num = get_exception_line()
             logger.error(f"Scenario 3 failed at line {line_num}: {e}")
             await page.screenshot(path="screenshots/case_17_scenario_3.png")
             raise AssertionError(f"Scenario 3 failed: {e}") from e
-
-
