@@ -36,7 +36,24 @@ class ProductsPage(BasePage):
         return await self.page.evaluate("document.body.innerText")
 
     async def add_product_to_cart(self, index: int):
-        await self.click(self.page.get_by_text(self.locators.ADD_TO_CART_TEXT).nth(index), force=True)
+        # Wait for networkidle so ads and lazy-loaded product cards have fully rendered
+        try:
+            await self.page.wait_for_load_state("networkidle", timeout=15000)
+        except Exception:
+            pass  # networkidle may time out on ad-heavy pages — proceed anyway
+
+        # Dismiss any ad overlay/iframe that may be blocking the products
+        try:
+            await self.page.keyboard.press("Escape")
+            await self.page.wait_for_timeout(500)
+        except Exception:
+            pass
+
+        add_to_cart_locator = self.page.get_by_text(self.locators.ADD_TO_CART_TEXT).nth(index)
+
+        # Scroll the target button into view so it is visible before clicking
+        await add_to_cart_locator.scroll_into_view_if_needed(timeout=60000)
+        await self.click(add_to_cart_locator, force=True)
         await self.page.wait_for_timeout(500)
 
     async def continue_shopping(self):
