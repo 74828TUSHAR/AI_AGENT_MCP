@@ -46,7 +46,6 @@ pipeline {
                         env.VIDEO_DIR       = "${env.ARTIFACT_ROOT}/video"
                         env.DOWNLOADS_DIR   = "${env.ARTIFACT_ROOT}/downloads"
                         env.RESULTS_XML     = "${env.ARTIFACT_ROOT}/test-results.xml"
-                        // Absolute Python path so Jenkins service account can find it
                         env.PYTHON_CMD      = 'C:\\Users\\TUSHAR\\AppData\\Local\\Programs\\Python\\Python311\\python.exe'
                     }
                 }
@@ -59,9 +58,7 @@ pipeline {
                     powershell """
                         Write-Host "Verifying Python at: ${env.PYTHON_CMD}"
                         & "${env.PYTHON_CMD}" --version
-                        if (\$LASTEXITCODE -ne 0) {
-                            throw "Python not found at ${env.PYTHON_CMD}"
-                        }
+                        if (\$LASTEXITCODE -ne 0) { throw "Python not found at ${env.PYTHON_CMD}" }
                         Write-Host "Python resolved successfully."
                     """
                 }
@@ -72,36 +69,11 @@ pipeline {
             steps {
                 dir('project_playwright') {
                     powershell '''
-                        if (Test-Path $env:ARTIFACT_ROOT) {
-                            Remove-Item -LiteralPath $env:ARTIFACT_ROOT -Recurse -Force
+                        @("logs","allure-results","screenshots","downloads","video","test-results.xml") | ForEach-Object {
+                            if (Test-Path $_) { Remove-Item -LiteralPath $_ -Recurse -Force }
                         }
-
-                        $workspacePaths = @(
-                            "logs",
-                            "allure-results",
-                            "screenshots",
-                            "downloads",
-                            "video",
-                            "test-results.xml"
-                        )
-
-                        foreach ($path in $workspacePaths) {
-                            if (Test-Path $path) {
-                                Remove-Item -LiteralPath $path -Recurse -Force
-                            }
-                        }
-
-                        $paths = @(
-                            $env:LOGS_DIR,
-                            $env:ALLURE_DIR,
-                            $env:ALLURE_REPORT,
-                            $env:SCREENSHOTS_DIR,
-                            $env:VIDEO_DIR,
-                            $env:DOWNLOADS_DIR
-                        )
-
-                        foreach ($path in $paths) {
-                            New-Item -ItemType Directory -Force -Path $path | Out-Null
+                        @($env:LOGS_DIR,$env:ALLURE_DIR,$env:ALLURE_REPORT,$env:SCREENSHOTS_DIR,$env:VIDEO_DIR,$env:DOWNLOADS_DIR) | ForEach-Object {
+                            New-Item -ItemType Directory -Force -Path $_ | Out-Null
                         }
                     '''
                 }
@@ -112,10 +84,9 @@ pipeline {
             steps {
                 dir('project_playwright') {
                     powershell """
-                        Write-Host "Using Python: ${env.PYTHON_CMD}"
                         & "${env.PYTHON_CMD}" --version
-                        & "${env.PYTHON_CMD}" -m pip install --upgrade pip
-                        & "${env.PYTHON_CMD}" -m pip install -r requirements.txt
+                        & "${env.PYTHON_CMD}" -m pip install --upgrade pip --quiet
+                        & "${env.PYTHON_CMD}" -m pip install -r requirements.txt --quiet
                         & "${env.PYTHON_CMD}" -m playwright install
                     """
                 }
@@ -125,17 +96,12 @@ pipeline {
         stage('Run Suite') {
             steps {
                 dir('project_playwright') {
-                    // Use catchError so post-steps always run even when tests fail
                     catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                         powershell """
                             \$env:LOG_DIR        = "logs"
                             \$env:SCREENSHOT_DIR = "screenshots"
-
-                            Write-Host "Running suite: ${env.SUITE_SLUG}"
-                            Write-Host "Environment:   ${env.ENV}"
-                            Write-Host "Headless:      ${env.HEADLESS}"
-
-                            & "${env.PYTHON_CMD}" -m pytest ${env.SUITE_PATH} -m ${env.SUITE_MARKER} -v --tb=short
+                            Write-Host "=== Running ${env.SUITE} suite | ENV=${env.ENV} | HEADLESS=${env.HEADLESS} ==="
+                            & "${env.PYTHON_CMD}" -m pytest ${env.SUITE_PATH} -m ${env.SUITE_MARKER} -v --tb=long
                         """
                     }
                 }
@@ -148,26 +114,26 @@ pipeline {
                     powershell '''
                         New-Item -ItemType Directory -Force -Path $env:ARTIFACT_ROOT | Out-Null
 
-                        $artifactPaths = @(
-                            @{ Source = "logs";          Target = $env:LOGS_DIR        },
-                            @{ Source = "allure-results"; Target = $env:ALLURE_DIR     },
-                            @{ Source = "screenshots";   Target = $env:SCREENSHOTS_DIR },
-                            @{ Source = "video";         Target = $env:VIDEO_DIR       },
-                            @{ Source = "downloads";     Target = $env:DOWNLOADS_DIR   }
-                        )
-
-                        foreach ($item in $artifactPaths) {
-                            if (Test-Path $item.Source) {
-                                Get-ChildItem -Path $item.Source -Force |
-                                    Copy-Item -Destination $item.Target -Recurse -Force
+                        # Copy logs, allure-results, screenshots, video, downloads
+                        @(
+                            @{Source="logs";           Target=$env:LOGS_DIR},
+                            @{Source="allure-results"; Target=$env:ALLURE_DIR},
+                            @{Source="screenshots";    Target=$env:SCREENSHOTS_DIR},
+                            @{Source="video";          Target=$env:VIDEO_DIR},
+                            @{Source="downloads";      Target=$env:DOWNLOADS_DIR}
+                        ) | ForEach-Object {
+                            if (Test-Path $_.Source) {
+                                Get-ChildItem -Path $_.Source -Force |
+                                    Copy-Item -Destination $_.Target -Recurse -Force
                             }
                         }
 
+                        # Copy JUnit XML
                         if (Test-Path "test-results.xml") {
-                            Copy-Item -Path "test-results.xml" -Destination $env:RESULTS_XML -Force
-                            Write-Host "Copied test-results.xml to $env:RESULTS_XML"
+                            Copy-Item "test-results.xml" $env:RESULTS_XML -Force
+                            Write-Host "Copied test-results.xml -> $env:RESULTS_XML"
                         } else {
-                            Write-Host "WARNING: test-results.xml not found in workspace"
+                            Write-Host "WARNING: test-results.xml not found"
                         }
                     '''
                 }
@@ -177,14 +143,210 @@ pipeline {
         stage('Generate Allure Report') {
             steps {
                 dir('project_playwright') {
+                    catchError(buildResult: currentBuild.currentResult, stageResult: 'UNSTABLE') {
+                        powershell """
+                            if (Test-Path "${env.ALLURE_DIR}") {
+                                Write-Host "Generating Allure HTML report..."
+                                & allure generate "${env.ALLURE_DIR}" --clean -o "${env.ALLURE_REPORT}"
+                                Write-Host "Allure report ready at ${env.ALLURE_REPORT}"
+                            } else {
+                                Write-Host "WARNING: allure-results not found, skipping"
+                            }
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Build Log Report') {
+            steps {
+                dir('project_playwright') {
                     powershell """
-                        if (Test-Path "${env.ALLURE_DIR}") {
-                            Write-Host "Generating Allure report from ${env.ALLURE_DIR}"
-                            & allure generate "${env.ALLURE_DIR}" --clean -o "${env.ALLURE_REPORT}"
-                            Write-Host "Allure report generated at ${env.ALLURE_REPORT}"
-                        } else {
-                            Write-Host "WARNING: allure-results directory not found, skipping report generation"
+                        \$logsDir = "${env.LOGS_DIR}"
+                        \$reportPath = "${env.ARTIFACT_ROOT}/log-report.html"
+
+                        if (-not (Test-Path \$logsDir)) {
+                            Write-Host "No logs directory found, skipping log report"
+                            exit 0
                         }
+
+                        \$logFiles = Get-ChildItem -Path \$logsDir -Filter "*.log" | Sort-Object Name
+                        if (\$logFiles.Count -eq 0) {
+                            Write-Host "No log files found, skipping log report"
+                            exit 0
+                        }
+
+                        \$html = @"
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='UTF-8'>
+<title>Test Log Report - Build ${env.BUILD_NUMBER}</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #0d1117; color: #c9d1d9; }
+  header { background: #161b22; border-bottom: 1px solid #30363d; padding: 20px 32px; display: flex; align-items: center; gap: 16px; }
+  header h1 { font-size: 20px; font-weight: 600; color: #f0f6fc; }
+  .badge { padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge-build { background: #1f6feb33; color: #58a6ff; border: 1px solid #1f6feb; }
+  .badge-suite { background: #388bfd1a; color: #79c0ff; border: 1px solid #388bfd55; }
+  .summary { display: flex; gap: 16px; padding: 20px 32px; background: #161b22; border-bottom: 1px solid #30363d; flex-wrap: wrap; }
+  .stat { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 12px 20px; min-width: 120px; }
+  .stat-val { font-size: 28px; font-weight: 700; }
+  .stat-label { font-size: 12px; color: #8b949e; margin-top: 2px; }
+  .passed .stat-val  { color: #3fb950; }
+  .failed .stat-val  { color: #f85149; }
+  .skipped .stat-val { color: #d29922; }
+  .total .stat-val   { color: #58a6ff; }
+  .container { padding: 24px 32px; }
+  .test-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; margin-bottom: 12px; overflow: hidden; }
+  .test-header { display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer; user-select: none; }
+  .test-header:hover { background: #1c2128; }
+  .status-icon { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+  .icon-pass  { background: #3fb95022; color: #3fb950; border: 1.5px solid #3fb950; }
+  .icon-fail  { background: #f8514922; color: #f85149; border: 1.5px solid #f85149; }
+  .icon-skip  { background: #d2992222; color: #d29922; border: 1.5px solid #d29922; }
+  .icon-info  { background: #58a6ff22; color: #58a6ff; border: 1.5px solid #58a6ff; }
+  .test-name { font-size: 14px; font-weight: 500; color: #f0f6fc; flex: 1; }
+  .test-file { font-size: 12px; color: #8b949e; }
+  .chevron { color: #8b949e; font-size: 12px; transition: transform 0.2s; }
+  .chevron.open { transform: rotate(90deg); }
+  .log-body { display: none; border-top: 1px solid #30363d; }
+  .log-body.open { display: block; }
+  pre { background: #0d1117; padding: 16px 18px; overflow-x: auto; font-size: 12px; line-height: 1.7; white-space: pre-wrap; word-break: break-all; }
+  .line-pass   { color: #3fb950; }
+  .line-fail   { color: #f85149; font-weight: 600; }
+  .line-error  { color: #ff7b72; font-weight: 600; }
+  .line-warn   { color: #d29922; }
+  .line-info   { color: #c9d1d9; }
+  .line-debug  { color: #6e7681; }
+  .line-step   { color: #58a6ff; }
+  .search-bar { width: 100%; padding: 10px 14px; background: #161b22; border: 1px solid #30363d; border-radius: 8px; color: #c9d1d9; font-size: 14px; margin-bottom: 20px; outline: none; }
+  .search-bar:focus { border-color: #58a6ff; }
+  .filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .filter-btn { padding: 5px 14px; border-radius: 20px; border: 1px solid #30363d; background: #0d1117; color: #8b949e; font-size: 12px; cursor: pointer; }
+  .filter-btn.active { border-color: #58a6ff; color: #58a6ff; background: #1f6feb22; }
+  .no-results { text-align: center; padding: 40px; color: #8b949e; }
+</style>
+</head>
+<body>
+<header>
+  <h1>&#128203; Test Log Report</h1>
+  <span class='badge badge-build'>Build #${env.BUILD_NUMBER}</span>
+  <span class='badge badge-suite'>${env.SUITE} Suite</span>
+</header>
+<div id='summary' class='summary'></div>
+<div class='container'>
+  <input class='search-bar' type='text' id='searchInput' placeholder='&#128269;  Search test name or log content...' oninput='filterTests()'>
+  <div class='filter-bar'>
+    <button class='filter-btn active' onclick='setFilter(\"all\", this)'>All</button>
+    <button class='filter-btn' onclick='setFilter(\"pass\", this)'>&#10003; Passed</button>
+    <button class='filter-btn' onclick='setFilter(\"fail\", this)'>&#10007; Failed</button>
+    <button class='filter-btn' onclick='setFilter(\"skip\", this)'>&#8212; Skipped</button>
+  </div>
+  <div id='testCards'></div>
+  <div class='no-results' id='noResults' style='display:none'>No matching tests found.</div>
+</div>
+<script>
+const tests = [];
+"@
+
+                        \$passed = 0; \$failed = 0; \$skipped = 0
+
+                        foreach (\$file in \$logFiles) {
+                            \$content = Get-Content \$file.FullName -Raw -Encoding UTF8
+                            \$testName = \$file.BaseName -replace '_test\$',''
+
+                            # Determine status from log content
+                            \$status = 'info'
+                            if (\$content -match 'TEST PASSED') { \$status = 'pass'; \$passed++ }
+                            elseif (\$content -match 'TEST FAILED|ERROR|FAILED') { \$status = 'fail'; \$failed++ }
+                            elseif (\$content -match 'SKIPPED') { \$status = 'skip'; \$skipped++ }
+
+                            # Escape for JS string
+                            \$escaped = \$content -replace '\\', '\\\\' -replace '`', '\\`' -replace '\$', '\\\$'
+                            \$html += "tests.push({name: '\$testName', file: '\$(\$file.Name)', status: '\$status', content: \`\$escaped\`});`n"
+                        }
+
+                        \$total = \$passed + \$failed + \$skipped
+
+                        \$html += @"
+const summaryData = {total: \$total, passed: \$passed, failed: \$failed, skipped: \$skipped};
+let currentFilter = 'all';
+
+document.getElementById('summary').innerHTML = `
+  <div class='stat total'><div class='stat-val'>\${summaryData.total}</div><div class='stat-label'>Total Tests</div></div>
+  <div class='stat passed'><div class='stat-val'>\${summaryData.passed}</div><div class='stat-label'>Passed</div></div>
+  <div class='stat failed'><div class='stat-val'>\${summaryData.failed}</div><div class='stat-label'>Failed</div></div>
+  <div class='stat skipped'><div class='stat-val'>\${summaryData.skipped}</div><div class='stat-label'>Skipped</div></div>
+`;
+
+function colorLine(line) {
+  if (/TEST PASSED/.test(line)) return `<span class='line-pass'>\${line}</span>`;
+  if (/TEST FAILED|AssertionError|FAILED/.test(line)) return `<span class='line-fail'>\${line}</span>`;
+  if (/\bERROR\b/.test(line)) return `<span class='line-error'>\${line}</span>`;
+  if (/\bWARN/.test(line))  return `<span class='line-warn'>\${line}</span>`;
+  if (/Scenario|STEP|step/.test(line)) return `<span class='line-step'>\${line}</span>`;
+  if (/\bDEBUG\b/.test(line)) return `<span class='line-debug'>\${line}</span>`;
+  return `<span class='line-info'>\${line}</span>`;
+}
+
+function renderCards(list) {
+  const container = document.getElementById('testCards');
+  const noResults = document.getElementById('noResults');
+  if (list.length === 0) { container.innerHTML = ''; noResults.style.display = 'block'; return; }
+  noResults.style.display = 'none';
+  container.innerHTML = list.map((t, i) => {
+    const icon = t.status === 'pass' ? {cls:'icon-pass', sym:'&#10003;'} :
+                 t.status === 'fail' ? {cls:'icon-fail', sym:'&#10007;'} :
+                 t.status === 'skip' ? {cls:'icon-skip', sym:'&#8212;'} :
+                                       {cls:'icon-info', sym:'&#8505;'};
+    const colored = t.content.split('\n').map(colorLine).join('\n');
+    return `<div class='test-card' data-status='\${t.status}' data-name='\${t.name.toLowerCase()}' data-content='\${t.content.toLowerCase().substring(0,500)}'>
+      <div class='test-header' onclick='toggle(\${i})'>
+        <div class='status-icon \${icon.cls}'>\${icon.sym}</div>
+        <div class='test-name'>\${t.name}</div>
+        <div class='test-file'>\${t.file}</div>
+        <div class='chevron' id='chev-\${i}'>&#9654;</div>
+      </div>
+      <div class='log-body' id='body-\${i}'><pre>\${colored}</pre></div>
+    </div>`;
+  }).join('');
+}
+
+function toggle(i) {
+  const body = document.getElementById('body-'+i);
+  const chev = document.getElementById('chev-'+i);
+  const open = body.classList.toggle('open');
+  chev.classList.toggle('open', open);
+}
+
+function getFiltered() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  return tests.filter(t => {
+    const matchFilter = currentFilter === 'all' || t.status === currentFilter;
+    const matchSearch = !q || t.name.includes(q) || t.content.toLowerCase().includes(q);
+    return matchFilter && matchSearch;
+  });
+}
+
+function filterTests() { renderCards(getFiltered()); }
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterTests();
+}
+
+renderCards(tests);
+</script>
+</body>
+</html>
+"@
+
+                        \$html | Out-File -FilePath \$reportPath -Encoding UTF8
+                        Write-Host "Log report generated: \$reportPath (\$(\$logFiles.Count) test files)"
                     """
                 }
             }
@@ -194,17 +356,32 @@ pipeline {
     post {
         always {
             dir('project_playwright') {
-                // Publish JUnit test results
+                // Publish JUnit results (shows Pass/Fail counts in Jenkins UI)
                 junit testResults: "${env.RESULTS_XML}", allowEmptyResults: true
 
-                // Publish Allure report via Allure Jenkins Plugin
-                allure([
-                    includeProperties: false,
-                    jdk: '',
-                    results: [[path: "${env.ALLURE_DIR}"]]
+                // Publish browsable Log Report as HTML
+                publishHTML(target: [
+                    allowMissing         : true,
+                    alwaysLinkToLastBuild: true,
+                    keepAll              : true,
+                    reportDir            : "${env.ARTIFACT_ROOT}",
+                    reportFiles          : 'log-report.html',
+                    reportName           : "Test Log Report",
+                    reportTitles         : "Test Log Report"
                 ])
 
-                // Archive all artifacts
+                // Publish Allure HTML as static report
+                publishHTML(target: [
+                    allowMissing         : true,
+                    alwaysLinkToLastBuild: true,
+                    keepAll              : true,
+                    reportDir            : "${env.ALLURE_REPORT}",
+                    reportFiles          : 'index.html',
+                    reportName           : "Allure Report",
+                    reportTitles         : "Allure Report"
+                ])
+
+                // Archive everything as downloadable zip
                 archiveArtifacts artifacts: "${env.ARTIFACT_ROOT}/**", allowEmptyArchive: true
             }
         }
