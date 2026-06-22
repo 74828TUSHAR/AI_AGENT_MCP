@@ -97,12 +97,13 @@ pipeline {
         stage('Run Suite') {
             steps {
                 dir('project_playwright') {
-                    catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                    catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
                         powershell """
                             \$env:LOG_DIR        = "logs"
                             \$env:SCREENSHOT_DIR = "screenshots"
                             Write-Host "=== Running ${env.SUITE} suite | ENV=${env.ENV} | HEADLESS=${env.HEADLESS} ==="
-                            & "${env.PYTHON_CMD}" -m pytest ${env.SUITE_PATH} -m ${env.SUITE_MARKER} -v --tb=long
+                            & "${env.PYTHON_CMD}" -m pytest ${env.SUITE_PATH} -m ${env.SUITE_MARKER} -v --tb=long `
+                                --junit-xml="${env.RESULTS_XML}"
                         """
                     }
                 }
@@ -125,9 +126,8 @@ pipeline {
                                 Get-ChildItem -Path $_.S -Force | Copy-Item -Destination $_.T -Recurse -Force
                             }
                         }
-                        if (Test-Path "test-results.xml") {
-                            Copy-Item "test-results.xml" $env:RESULTS_XML -Force
-                            Write-Host "Copied test-results.xml -> $env:RESULTS_XML"
+                        if (Test-Path $env:RESULTS_XML) {
+                            Write-Host "JUnit XML found at $env:RESULTS_XML"
                         } else {
                             Write-Host "WARNING: test-results.xml not found"
                         }
@@ -140,14 +140,16 @@ pipeline {
             steps {
                 dir('project_playwright') {
                     // 1. Per-test Log Report (pure Python, no extra deps)
-                    powershell """
-                        Write-Host "--- Generating Log Report ---"
-                        & "${env.PYTHON_CMD}" scripts/generate_log_report.py `
-                            --logs-dir "${env.LOGS_DIR}" `
-                            --output   "${env.LOG_REPORT}" `
-                            --build    "${env.BUILD_NUMBER}" `
-                            --suite    "${env.SUITE}"
-                    """
+                    catchError(buildResult: currentBuild.currentResult, stageResult: 'UNSTABLE') {
+                        powershell """
+                            Write-Host "--- Generating Log Report ---"
+                            & "${env.PYTHON_CMD}" scripts/generate_log_report.py `
+                                --logs-dir "${env.LOGS_DIR}" `
+                                --output   "${env.LOG_REPORT}" `
+                                --build    "${env.BUILD_NUMBER}" `
+                                --suite    "${env.SUITE}"
+                        """
+                    }
 
                     // 2. Allure Report (only if allure CLI is on PATH)
                     catchError(buildResult: currentBuild.currentResult, stageResult: 'UNSTABLE') {
@@ -169,32 +171,10 @@ pipeline {
     post {
         always {
             dir('project_playwright') {
-                // JUnit results panel
+                // JUnit results panel (built-in, no plugin needed)
                 junit testResults: "${env.RESULTS_XML}", allowEmptyResults: true
 
-                // Per-test Log Report
-                publishHTML(target: [
-                    allowMissing          : true,
-                    alwaysLinkToLastBuild : true,
-                    keepAll               : true,
-                    reportDir             : "${env.ARTIFACT_ROOT}",
-                    reportFiles           : 'log-report.html',
-                    reportName            : 'Test Log Report',
-                    reportTitles          : 'Test Log Report'
-                ])
-
-                // Allure Report
-                publishHTML(target: [
-                    allowMissing          : true,
-                    alwaysLinkToLastBuild : true,
-                    keepAll               : true,
-                    reportDir             : "${env.ALLURE_REPORT}",
-                    reportFiles           : 'index.html',
-                    reportName            : 'Allure Report',
-                    reportTitles          : 'Allure Report'
-                ])
-
-                // Archive everything as downloadable zip
+                // Archive all artifacts as downloadable zips (no HTML Publisher plugin needed)
                 archiveArtifacts artifacts: "${env.ARTIFACT_ROOT}/**", allowEmptyArchive: true
             }
         }
