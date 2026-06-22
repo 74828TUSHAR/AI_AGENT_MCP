@@ -13,6 +13,9 @@ from core.api_client import AutomationExerciseApiClient
 from config.array_config import ArrayConfigManager, reset_array_manager
 from utils.logger import set_execution_context, get_logger
 
+# Global timeout matching base_page.py DEFAULT_TIMEOUT — keeps conftest & pages in sync
+PAGE_DEFAULT_TIMEOUT = 120000  # 120s
+
 
 def _get_int_env(name, default_value):
     value = os.getenv(name)
@@ -91,7 +94,25 @@ async def page(env, request):
 
         window_mode, width, height = _get_window_settings(env)
 
-        args = []
+        # Ad-blocking + performance args for Chromium.
+        # automationexercise.com loads many 3rd-party ad scripts that slow page
+        # rendering significantly; blocking known ad hosts speeds up element
+        # visibility and reduces spurious timeouts.
+        args = [
+            "--disable-background-networking",
+            "--disable-default-apps",
+            "--no-sandbox",
+            "--disable-extensions",
+            # Block common ad/tracking hosts at the Chrome level
+            "--host-rules=MAP doubleclick.net 0.0.0.0,"
+            "MAP googlesyndication.com 0.0.0.0,"
+            "MAP googletagmanager.com 0.0.0.0,"
+            "MAP googletagservices.com 0.0.0.0,"
+            "MAP adservice.google.com 0.0.0.0,"
+            "MAP pagead2.googlesyndication.com 0.0.0.0,"
+            "MAP amazon-adsystem.com 0.0.0.0,"
+            "MAP scorecardresearch.com 0.0.0.0",
+        ]
         viewport = None
 
         # ===============================
@@ -124,6 +145,10 @@ async def page(env, request):
             record_video_dir=str(temp_video_dir)
         )
         page = await context.new_page()
+
+        # Set global default timeout so every locator/wait inherits it automatically
+        page.set_default_timeout(PAGE_DEFAULT_TIMEOUT)
+        page.set_default_navigation_timeout(PAGE_DEFAULT_TIMEOUT)
 
         await _apply_window_state(page, window_mode, width, height, headless)
 
@@ -232,13 +257,13 @@ def test_record(request, test_data):
 def pytest_runtest_setup(item):
     """
     Configure test-specific logging before each test.
-    
+
     Features:
     - Creates separate log files for each test module
     - Sets execution context (environment, array, test name)
     - Enables comprehensive test tracing and debugging
     - Logs test start with environment and array information
-    
+
     Example: test_login_authentication.py -> logs/login_authentication_test.log
     """
     # Extract a stable module name from the file name
@@ -279,14 +304,14 @@ def pytest_runtest_setup(item):
     console_handler.setLevel(logging.INFO)
     console_handler.setFormatter(formatter)
     logger.addHandler(console_handler)
-    
+
     # =========================================================================
     # SET EXECUTION CONTEXT FOR LOGGING (Enterprise Feature)
     # =========================================================================
     env_name = os.getenv("ENV", "qa")
     array_name = os.getenv("ARRAY", "default")
     set_execution_context(environment=env_name, array=array_name, test_name=test_name)
-    
+
     # Log test start
     test_logger = get_logger(f"{item.module.__name__}[TEST]")
     test_logger.info(f"TEST START | Test: {test_name} | File: {test_module_name}")
@@ -310,7 +335,7 @@ def pytest_runtest_makereport(item, call):
     outcome = yield
     report = outcome.get_result()
     setattr(item, f"rep_{report.when}", report)
-    
+
     # Log test result (Enterprise Feature)
     if call.when == "call":
         test_logger = get_logger(f"{item.module.__name__}[TEST]")
