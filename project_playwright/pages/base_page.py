@@ -8,7 +8,7 @@ from playwright.async_api import Locator, Page
 
 from utils.logger import get_execution_context, get_logger
 
-DEFAULT_TIMEOUT = 60000  # 60s — accommodates slow ad-heavy pages like automationexercise.com
+DEFAULT_TIMEOUT = 120000  # 120s — accommodates slow ad-heavy pages like automationexercise.com
 
 
 class BasePage:
